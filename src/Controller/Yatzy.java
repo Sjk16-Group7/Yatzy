@@ -41,4 +41,31 @@ public class Yatzy {
 
 		return sum;
 	}
+	
+	public int getLowerSectionScore(Player player){
+		int sum = 0;
+		int numberOfUpperIndex = 6;
+		int numberOfLowerSection = 9;
+		int indexOfPlayer = this.players.indexOf(player);
+		
+		for (int i = numberOfUpperIndex; i < numberOfUpperIndex + numberOfLowerSection; i++){
+			ScoreBoardCell cell = this.scoreBoard.getCell(i, indexOfPlayer);
+			String value = cell.getValue();
+			
+			if (!cell.isCrossed()) {
+				sum += Integer.parseInt(value);
+			}
+		}
+		
+		return sum;
+	}
+	
+	public int getTotalScore(Player player){
+		int totalScore = 0;
+		
+		totalScore += getUpperSectionScore(player) + getLowerSectionScore(player);
+		totalScore += getBonus(player);
+		
+		return totalScore;
+	}
 }
