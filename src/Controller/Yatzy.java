@@ -41,31 +41,64 @@ public class Yatzy {
 
 		return sum;
 	}
-	
-	public int getLowerSectionScore(Player player){
+
+	public int getLowerSectionScore(Player player) {
 		int sum = 0;
 		int numberOfUpperIndex = 6;
 		int numberOfLowerSection = 9;
 		int indexOfPlayer = this.players.indexOf(player);
-		
-		for (int i = numberOfUpperIndex; i < numberOfUpperIndex + numberOfLowerSection; i++){
+
+		for (int i = numberOfUpperIndex; i < numberOfUpperIndex + numberOfLowerSection; i++) {
 			ScoreBoardCell cell = this.scoreBoard.getCell(i, indexOfPlayer);
 			String value = cell.getValue();
-			
+
 			if (!cell.isCrossed()) {
 				sum += Integer.parseInt(value);
 			}
 		}
-		
+
 		return sum;
 	}
-	
-	public int getTotalScore(Player player){
+
+	public int getTotalScore(Player player) {
 		int totalScore = 0;
-		
+
 		totalScore += getUpperSectionScore(player) + getLowerSectionScore(player);
 		totalScore += getBonus(player);
-		
+
 		return totalScore;
 	}
-}
+
+	public boolean isGameOver() {
+		int rows = 15;
+		int columns = this.players.size();
+
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				ScoreBoardCell cell = this.scoreBoard.getCell(i, j);
+				String value = cell.getValue();
+
+				if (!cell.isCrossed() && value.isEmpty()) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public boolean getWinner(){
+		
+		int numberOfPlayers= players.size();
+		
+		for (int i=0; i < numberOfPlayers; i++) {
+			Player player = this.players.get(i); //first create an object of the type "Player" for all players
+			int score = this.getTotalScore(player);
+			int maxScore= Math.max(score);
+			
+				
+			}
+				
+		}
+					
+	}
