@@ -86,4 +86,22 @@ public class Yatzy {
 		return true;
 	}
 
+	public int getWinner() {
+
+		int numberOfPlayers = players.size();
+		int maxValue = 0;
+		for (int i = 0; i < numberOfPlayers; i++) {
+			Player player = this.players.get(i); 
+			int[] scores = new int[players.size()];
+			scores[i] = this.getTotalScore(player);
+			maxValue = scores[0];
+			for (int j = 0; j < scores.length; j++) {
+				if (scores[j] > maxValue) {
+					maxValue = scores[j];
+				}
+			}
+
+		}
+		return maxValue;
+	}
 }
