@@ -2,59 +2,36 @@ package Model.ScoreBoard;
 
 import java.util.ArrayList;
 
+import Model.Dice.DiceCombination;
 import Model.Player.*;
 import Model.ScoreBoard.*;
 
 public class YatzyScoreBoard extends ScoreBoard {
-	
-	private ScoreBoard scoreBoard;
-	private ArrayList<Player> players = new ArrayList<Player>();
 
-	public YatzyScoreBoard(int rows, int columns) {
-		super(rows, columns);
+	public YatzyScoreBoard() {
+		super(DiceCombination.values().length, 1);
 	}
 	
-	public int getUpperSectionScore(Player player) {
-		int sum = 0;
-		int numberOfUpperIndex = 6;
-		int indexOfPlayer = this.players.indexOf(player);
+	public int getBonus() {
+		int bonus = 0;
 
-		for (int i = 0; i < numberOfUpperIndex; i++) {
-			ScoreBoardCell cell = this.scoreBoard.getCell(i, indexOfPlayer);
-			String value = cell.getValue();
-
-			if (!cell.isCrossed()) {
-				sum += Integer.parseInt(value);
-			}
+		if (getUpperSection().getSum() >= 63) {
+			bonus = 50;
 		}
 
-		return sum;
+		return bonus;
+	}
+	public ScoreBoard getUpperSection() {
+		ScoreBoard scoreBoard = new ScoreBoard(6, 1);
+		
+		return scoreBoard;
 	}
 	
-	public int getLowerSectionScore(Player player){
-		int sum = 0;
-		int numberOfUpperIndex = 6;
-		int numberOfLowerSection = 9;
-		int indexOfPlayer = this.players.indexOf(player);
+	public ScoreBoard getLowerSection() {
 		
-		for (int i = numberOfUpperIndex; i < numberOfUpperIndex + numberOfLowerSection; i++){
-			ScoreBoardCell cell = this.scoreBoard.getCell(i, indexOfPlayer);
-			String value = cell.getValue();
-			
-			if (!cell.isCrossed()) {
-				sum += Integer.parseInt(value);
-			}
-		}
-		
-		return sum;
 	}
 	
-	public int getTotalScore(Player player){
-		int totalScore = 0;
-		
-		totalScore += getUpperSectionScore(player) + getLowerSectionScore(player);
-		totalScore += getBonus(player);
-		
-		return totalScore;
+	public int getTotalScore(){
+		return this.getSum() + this.getBonus();
 	}
 }
