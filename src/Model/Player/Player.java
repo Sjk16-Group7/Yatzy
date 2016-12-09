@@ -1,4 +1,6 @@
-package Model;
+package Model.Player;
+
+import Model.ScoreBoard.ScoreBoard;
 
 public class Player {
 
