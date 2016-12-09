@@ -8,20 +8,39 @@ import javax.swing.*;
 public class PlayerDialog extends JDialog {
 
     public static void main(String[] args) {
-        new PlayerDialog(System.out::println);
+        PlayerDialog dialog = new PlayerDialog();
+
+        ActionListener listener = e -> {
+            String[] names = dialog.getNames();
+
+            for (String name : names) {
+                System.out.println(name);
+            }
+        };
+
+        dialog.addActionListener(listener);
     }
 
     private static final int MAX_TEXTFIELDS = 8;
 
     private JPanel textFieldsPanel;
+    private JButton OkButton;
 
-    public PlayerDialog(ActionListener listener) {
+    public PlayerDialog() {
         super();
 
-        this.initDefaultGUI(listener);
+        this.initDefaultGUI();
     }
 
-    private void initDefaultGUI(ActionListener listener) {
+    private void addActionListener(ActionListener listener) {
+        this.OkButton.addActionListener(listener);
+    }
+
+    private void removeActionListener(ActionListener listener) {
+        this.OkButton.removeActionListener(listener);
+    }
+
+    private void initDefaultGUI() {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BorderLayout());
         this.add(wrapper);
@@ -62,8 +81,7 @@ public class PlayerDialog extends JDialog {
         confirmationPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
         wrapper.add(confirmationPanel, BorderLayout.SOUTH);
 
-        JButton OkButton = new JButton("Play!");
-        OkButton.addActionListener(listener);
+        this.OkButton = new JButton("Play!");
         confirmationPanel.add(OkButton);
 
         this.addTextField("");
@@ -162,8 +180,25 @@ public class PlayerDialog extends JDialog {
         this.updateView();
     }
 
-    public String getNames() {
-        // TODO
-        return "HejHopp";
+    public String[] getNames() {
+        // TODO improve
+        Component[] components = this.textFieldsPanel.getComponents();
+        int length = components.length - 1;
+
+        String[] names = new String[length];
+
+        for (int i = 0; i < length; i++) {
+            Component component = components[i];
+
+            if (component instanceof JPanel) {
+                Component label = ((JPanel) component).getComponent(0);
+
+                if (label instanceof JLabel) {
+                    names[i] = ((JLabel) label).getText();
+                }
+            }
+        }
+
+        return names;
     }
 }
