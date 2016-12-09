@@ -1,19 +1,23 @@
 package Model;
 
 public class ScoreBoardCell {
-    private String value;
+    private Integer value;
     private boolean crossed;
-
-    public ScoreBoardCell() {
+    
+    public ScoreBoardCell() { 
         this.reset();
     }
-
-    public String getValue() {
-        return this.value;
+    
+    public void reset() { 
+        this.value = null;
     }
-
-    public void setValue(String value) {
+   
+    public void setValue(int value) {
         this.value = value;
+    }
+    
+    public int getValue() {
+        return this.value;
     }
 
     public boolean isCrossed() {
@@ -24,7 +28,31 @@ public class ScoreBoardCell {
         this.crossed = crossed;
     }
 
-    public void reset() {
-        this.value = "";
-    }
+	public boolean isEmpty() {
+		return this.value == null;
+	}
+
+	public boolean equals(ScoreBoardCell cell) {
+		// return this.value == cell.value && this.crossed == cell.crossed;
+		if (this.value != cell.value)
+			return false;
+		else if (this.crossed != cell.crossed)
+			return false;
+		else
+			return true;
+	}
+
+	public String toString() {
+		return "ScoreBoardCell()";
+	}
+
+	public ScoreBoardCell clone() {
+		ScoreBoardCell copy = new ScoreBoardCell();
+		// copy.setValue(this.value);
+		copy.value = this.value;
+		copy.crossed = this.crossed;
+
+		return copy;
+	}
 }
+
