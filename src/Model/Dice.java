@@ -1,4 +1,4 @@
-package src.Model;
+package Model;
 
 public class Dice {
 	
@@ -24,8 +24,6 @@ public class Dice {
 	}
 
 	public boolean equals(Dice dice) {
-		if (this.surfaceValue != dice.surfaceValue) {
-			return true;
-		}
+		return this.surfaceValue == dice.surfaceValue;
 	}
 }
