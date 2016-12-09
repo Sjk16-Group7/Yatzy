@@ -1,6 +1,7 @@
 package src.Model;
 
 public class Dice {
+	
 	private int surfaceValue;
 	
 	public void roll() {
@@ -9,5 +10,22 @@ public class Dice {
 	
 	 public int getValue() {
 		return surfaceValue;
+	}
+
+	public String toString() {
+		return "Dice value is: " + getValue();
+	}
+
+	public Dice clone() {
+		Dice copyDice = new Dice();
+		copyDice.surfaceValue = this.surfaceValue;
+
+		return copyDice;
+	}
+
+	public boolean equals(Dice dice) {
+		if (this.surfaceValue != dice.surfaceValue) {
+			return true;
+		}
 	}
 }
