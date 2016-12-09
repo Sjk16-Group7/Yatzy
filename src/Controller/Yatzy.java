@@ -3,10 +3,9 @@ package Controller;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import Model.Player;
-import Model.ScoreBoard;
-import Model.ScoreBoardCell;
-import Model.Dice;
+import Model.Player.*;
+import Model.ScoreBoard.*;
+import Model.Dice.*;
 
 public class Yatzy {
 	private JFrame window;
@@ -14,16 +13,6 @@ public class Yatzy {
 	private ScoreBoard scoreBoard;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private ArrayList<Dice> dice = new ArrayList<Dice>();
-
-	public int getBonus(Player player) {
-		int bonus = 0;
-
-		if (this.getUpperSectionScore(player) >= 63) {
-			bonus = 50;
-		}
-
-		return bonus;
-	}
 
 	public int getUpperSectionScore(Player player) {
 		int sum = 0;
