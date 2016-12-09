@@ -1,4 +1,4 @@
-package Model;
+package Model.ScoreBoard;
 
 public class ScoreBoardCell {
     private Integer value;
