@@ -6,7 +6,7 @@ public class YatzyDiceCollection extends DiceCollection {
     }
 
     public boolean match(DiceCombination combination) {
-        if (combination == DiceCombination.CHANCE) {
+        if (combination.equals(DiceCombination.CHANCE)) {
             return true;
         }
 
@@ -14,84 +14,99 @@ public class YatzyDiceCollection extends DiceCollection {
     }
 
     public int getScore(DiceCombination combination) {
-//        switch (combination) {
-//            case ACES: return this.acesScore();
-//            case TWOS: return this.twosScore();
-//            case THREES: return this.threesScore();
-//            case FOURS: return this.foursScore();
-//            case FIVES: return this.fivesScore();
-//            case SIXES: return this.sixesScore();
-//            case ONE_PAIR: return this.onePairScore();
-//            case TWO_PAIRS: return this.twoPairsScore();
-//            case THREE_OF_A_KIND: return this.threeOfAKindScore();
-//            case FOUR_OF_A_KIND: return this.fourOfAKindScore();
-//            case SMALL_STRAIGHT: return this.smallStraightScore();
-//            case LARGE_STRAIGHT: return this.largeStraightScore();
-//            case FULL_HOUSE: return this.fullHouseScore();
-//            case CHANCE: return this.chanceScore();
-//            case YATZY: return this.yatzyScore();
-//        }
+        switch (combination) {
+            case ACES: return this.getAcesScore();
+            case TWOS: return this.getTwosScore();
+            case THREES: return this.getThreesScore();
+            case FOURS: return this.getFoursScore();
+            case FIVES: return this.getFivesScore();
+            case SIXES: return this.getSixesScore();
+            case ONE_PAIR: return this.getOnePairScore();
+            case TWO_PAIRS: return this.getTwoPairsScore();
+            case THREE_OF_A_KIND: return this.getThreeOfAKindScore();
+            case FOUR_OF_A_KIND: return this.getFourOfAKindScore();
+            case SMALL_STRAIGHT: return this.getSmallStraightScore();
+            case LARGE_STRAIGHT: return this.getLargeStraightScore();
+            case FULL_HOUSE: return this.getFullHouseScore();
+            case CHANCE: return this.getChanceScore();
+            case YATZY: return this.getYatzyScore();
+        }
 
         return 0;
     }
 
-    //private int acesScore() {
-    //    // TODO
-    //}
-    //
-    //private int twosScore() {
-    //    // TODO
-    //}
-    //
-    //private int threesScore() {
-    //    // TODO
-    //}
-    //
-    //private int foursScore() {
-    //    // TODO
-    //}
-    //
-    //private int fivesScore() {
-    //    // TODO
-    //}
-    //
-    //private int sixesScore() {
-    //    // TODO
-    //}
-    //
-    //private int onePairScore() {
-    //    // TODO
-    //}
-    //
-    //private int twoPairsScore() {
-    //    // TODO
-    //}
-    //
-    //private int threeOfAKindScore() {
-    //    // TODO
-    //}
-    //
-    //private int fourOfAKindScore() {
-    //    // TODO
-    //}
-    //
-    //private int smallStraightScore() {
-    //    // TODO
-    //}
-    //
-    //private int largeStraightScore() {
-    //    // TODO
-    //}
-    //
-    //private int fullHouseScore() {
-    //    // TODO
-    //}
+    private int getAcesScore() {
+        // TODO
+        return 0;
+    }
 
-//    private int chanceScore() {
-//        // TODO
-//    }
+    private int getTwosScore() {
+        // TODO
+        return 0;
+    }
 
-    //private int yatzyScore() {
-    //    // TODO
-    //}
+    private int getThreesScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getFoursScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getFivesScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getSixesScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getOnePairScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getTwoPairsScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getThreeOfAKindScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getFourOfAKindScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getSmallStraightScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getLargeStraightScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getFullHouseScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getChanceScore() {
+        // TODO
+        return 0;
+    }
+
+    private int getYatzyScore() {
+        // TODO
+        return 0;
+    }
 }
