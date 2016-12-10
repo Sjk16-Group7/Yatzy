@@ -90,8 +90,7 @@ public class DiceCollection extends ArrayList<Dice> {
 
     @Override
     public String toString() {
-        // TODO
-        return "";
+        return "DiceCollection(size:" + this.size() + ")";
     }
 
     @Override
