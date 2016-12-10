@@ -3,21 +3,21 @@ package Model.ScoreBoard;
 public class ScoreBoardCell {
     private Integer value;
     private boolean crossed;
-    
-    public ScoreBoardCell() { 
+
+    public ScoreBoardCell() {
         this.reset();
     }
-    
-    public void reset() { 
-        this.value = null;
+
+    public boolean isEmpty() {
+        return this.value == null;
     }
-   
-    public void setValue(int value) {
-        this.value = value;
-    }
-    
+
     public int getValue() {
         return this.value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public boolean isCrossed() {
@@ -28,31 +28,27 @@ public class ScoreBoardCell {
         this.crossed = crossed;
     }
 
-	public boolean isEmpty() {
-		return this.value == null;
-	}
+    public void reset() {
+        this.value = null;
+        this.crossed = false;
+    }
 
-	public boolean equals(ScoreBoardCell cell) {
-		// return this.value == cell.value && this.crossed == cell.crossed;
-		if (this.value != cell.value)
-			return false;
-		else if (this.crossed != cell.crossed)
-			return false;
-		else
-			return true;
-	}
+    public boolean equals(ScoreBoardCell cell) {
+        return this.value.equals(cell.value) && this.crossed == cell.crossed;
+    }
 
-	public String toString() {
-		return "ScoreBoardCell()";
-	}
+    @Override
+    public String toString() {
+        return "ScoreBoardCell(value" + this.value + ", crossed:" + this.crossed + ")";
+    }
 
-	public ScoreBoardCell clone() {
-		ScoreBoardCell copy = new ScoreBoardCell();
-		// copy.setValue(this.value);
-		copy.value = this.value;
-		copy.crossed = this.crossed;
+    @Override
+    public ScoreBoardCell clone() {
+        ScoreBoardCell copy = new ScoreBoardCell();
 
-		return copy;
-	}
+        copy.value = this.value;
+        copy.crossed = this.crossed;
+
+        return copy;
+    }
 }
-
