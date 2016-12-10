@@ -1,5 +1,7 @@
 package Model.Dice;
 
+import Model.Dice;
+
 public class Dice {
     private int maxValue;
 	private int surfaceValue;
@@ -25,12 +27,19 @@ public class Dice {
 	    this.surfaceValue = value;
     }
 
-    public String toString() {
-        // TODO
-        return "";
-    }
 
-    //public Dice clone() {
-        // TODO
-    //}
+	public String toString() {
+		return "Dice value is: " + getValue();
+	}
+
+	public Dice clone() {
+		Dice copyDice = new Dice();
+		copyDice.surfaceValue = this.surfaceValue;
+
+		return copyDice;
+	}
+
+	public boolean equals(Dice dice) {
+		return this.surfaceValue == dice.surfaceValue;
+	}
 }
