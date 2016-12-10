@@ -1,10 +1,8 @@
 package Model.Dice;
 
-import Model.Dice;
-
 public class Dice {
     private int maxValue;
-	private int surfaceValue;
+	private int value;
 
 	public Dice(int maxValue) {
 	    this.maxValue = maxValue;
@@ -16,30 +14,31 @@ public class Dice {
     }
 
 	public void roll() {
-        this.surfaceValue = (int)(Math.random() * maxValue + 1);
+        this.value = (int)(Math.random() * maxValue + 1);
     }
 
 	 public int getValue() {
-		return this.surfaceValue;
+		return this.value;
 	}
 
 	public void setValue(int value) {
-	    this.surfaceValue = value;
+	    this.value = value;
     }
 
-
+	@Override
 	public String toString() {
-		return "Dice value is: " + getValue();
+		return "Dice(value:" + this.value + ")";
 	}
 
+	@Override
 	public Dice clone() {
-		Dice copyDice = new Dice();
-		copyDice.surfaceValue = this.surfaceValue;
+		Dice copy = new Dice(this.maxValue);
+		copy.value = this.value;
 
-		return copyDice;
+		return copy;
 	}
 
 	public boolean equals(Dice dice) {
-		return this.surfaceValue == dice.surfaceValue;
+		return this.value == dice.value;
 	}
 }
