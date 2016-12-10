@@ -1,8 +1,8 @@
-package View.MainWindow;
-
-import Model.Dice.DiceCombination;
+package View.GameScreen;
 
 import javax.swing.*;
+
+import Model.Dice.DiceCombination;
 
 public class CombinationButton extends JButton {
     private DiceCombination combination;

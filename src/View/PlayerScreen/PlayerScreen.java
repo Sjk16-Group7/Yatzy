@@ -1,6 +1,7 @@
-package View.PlayerDialog;
+package View.PlayerScreen;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -8,46 +9,20 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.EventListenerList;
 
-public class PlayerDialog extends JDialog {
+import static View.ViewHelper.createSquareButton;
 
-    public static void main(String[] args) {
-        PlayerDialog dialog = new PlayerDialog();
-
-        ActionListener listener = e -> {
-            ArrayList<String> names = dialog.getPlayerNames();
-
-            if (names.isEmpty()) {
-                JOptionPane.showMessageDialog(
-                    dialog,
-                    "You must have at least 1 player!",
-                    "Oops",
-                    JOptionPane.INFORMATION_MESSAGE
-                );
-
-                return;
-            }
-
-            for (String name : names) {
-                System.out.println(name);
-            }
-
-            dialog.dispose();
-        };
-
-        dialog.addActionListener(listener);
-    }
-
+public class PlayerScreen extends JPanel {
     private static final int MAX_PLAYERS = 8;
 
+    private EventListenerList listenerList = new EventListenerList();
     private ArrayList<String> playerNames = new ArrayList<String>();
     private JPanel textFieldPanel = new JPanel();
     private JButton OkButton = new JButton("Play!");
     private JPanel addPanel = this.createPlayerEditPanel(true, "");
 
-    public PlayerDialog() {
-        super();
-
+    public PlayerScreen() {
         this.initDefaultGUI();
     }
 
@@ -55,12 +30,20 @@ public class PlayerDialog extends JDialog {
         return this.playerNames;
     }
 
-    private void addActionListener(ActionListener listener) {
-        this.OkButton.addActionListener(listener);
+    public void addActionListener(ActionListener listener) {
+        this.listenerList.add(ActionListener.class, listener);
     }
 
-    private void removeActionListener(ActionListener listener) {
-        this.OkButton.removeActionListener(listener);
+    public void removeActionListener(ActionListener listener) {
+        this.listenerList.remove(ActionListener.class, listener);
+    }
+
+    public void reset() {
+        for (String name : this.playerNames) {
+            this.textFieldPanel.remove(0);
+        }
+
+        this.playerNames.clear();
     }
 
     private void initDefaultGUI() {
@@ -86,12 +69,10 @@ public class PlayerDialog extends JDialog {
         JPanel confirmationPanel = new JPanel();
         confirmationPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
         wrapper.add(confirmationPanel, BorderLayout.SOUTH);
-        confirmationPanel.add(this.OkButton);
 
-        this.pack();
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setVisible(true);
+        this.OkButton.setActionCommand("Ok");
+        this.OkButton.addActionListener(this::fireActionPerformed);
+        confirmationPanel.add(this.OkButton);
     }
 
     private void clearAddPanel() {
@@ -115,19 +96,19 @@ public class PlayerDialog extends JDialog {
         String errorMessage = "";
 
         if (name.isEmpty()) {
-            errorMessage = "Player name cannot be empty";
+            errorMessage = "Player name cannot be empty!";
             error = true;
         } else if (this.playerNames.size() >= MAX_PLAYERS) {
-            errorMessage = "Maximum amount of players reached!";
+            errorMessage = "Maximum amount of players reached! (" + MAX_PLAYERS + ")";
             error = true;
         } else if (this.playerNames.contains(name)) {
-            errorMessage = name + " is already listed as a player!";
+            errorMessage = "'" + name + "' is already listed as a player!";
             error = true;
         }
 
         if (error) {
             JOptionPane.showMessageDialog(
-                this,
+                this.getParent(),
                 errorMessage,
                 "Oops",
                 JOptionPane.INFORMATION_MESSAGE
@@ -154,7 +135,7 @@ public class PlayerDialog extends JDialog {
         this.clearAddPanel();
         this.focusAddPanel();
 
-        this.pack();
+        this.updateUI();
     }
 
     private void removePlayerPanel(JPanel panel) {
@@ -162,7 +143,7 @@ public class PlayerDialog extends JDialog {
 
         this.focusAddPanel();
 
-        this.pack();
+        this.updateUI();
     }
 
     private JPanel createPlayerEditPanel(boolean enabled, String text) {
@@ -174,28 +155,32 @@ public class PlayerDialog extends JDialog {
         textField.setEditable(enabled);
         panel.add(textField, BorderLayout.CENTER);
 
-        JButton button = this.createSquareButton(enabled ? "+" : "-", 20);
+        JButton button = createSquareButton(enabled ? "+" : "-", 20);
         panel.add(button, BorderLayout.EAST);
 
         ActionListener listener;
 
         if (enabled) {
-            listener = e -> this.addPlayer(textField.getText());
+            listener = event -> this.addPlayer(textField.getText());
         } else {
-            listener = e -> this.removePlayer(textField.getText(), panel);
+            listener = event -> this.removePlayer(textField.getText(), panel);
         }
 
-        button.addActionListener(listener);
         textField.addActionListener(event -> button.doClick());
+        button.setActionCommand(enabled ? "Add" : "Remove");
+        button.addActionListener(this::fireActionPerformed);
+        button.addActionListener(listener);
 
         return panel;
     }
 
-    private JButton createSquareButton(String text, int size) {
-        JButton button = new JButton(text);
-        button.setPreferredSize(new Dimension(size, size));
-        button.setMargin(new Insets(0, 0, 0, 0));
+    private void fireActionPerformed(ActionEvent event) {
+        Object[] listeners = listenerList.getListenerList();
 
-        return button;
+        for (Object listener : listeners) {
+            if (listener instanceof ActionListener) {
+                ((ActionListener) listener).actionPerformed(event);
+            }
+        }
     }
 }

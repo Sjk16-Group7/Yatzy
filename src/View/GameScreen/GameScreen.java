@@ -1,30 +1,39 @@
-package View.MainWindow;
+package View.GameScreen;
 
-import Model.Dice.Dice;
-import Model.Dice.DiceCollection;
-import Model.Dice.DiceCombination;
-
-import javax.swing.*;
-import javax.swing.event.EventListenerList;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class YatzyWindow extends JFrame {
-    protected EventListenerList listenerList = new EventListenerList();
+import javax.swing.*;
+import javax.swing.event.EventListenerList;
+import javax.swing.table.JTableHeader;
 
+import Model.Dice.Dice;
+import Model.Dice.DiceCombination;
+
+public class GameScreen extends JPanel {
+    private EventListenerList listenerList = new EventListenerList();
     private ArrayList<DiceButton> diceButtons = new ArrayList<DiceButton>();
     private HashMap<DiceCombination, JButton> combinationButtons = new HashMap<DiceCombination, JButton>();
     private String[] names;
     private JButton rollButton;
 
-    public YatzyWindow(DiceCollection dice) {
-        super("Yatzy");
+    public GameScreen() {
+        this.initDefaultGUI();
+    }
 
-        this.initDefaultGUI(dice);
+    public void addActionListener(ActionListener listener) {
+        this.listenerList.add(ActionListener.class, listener);
+    }
+
+    public void removeActionListener(ActionListener listener) {
+        this.listenerList.remove(ActionListener.class, listener);
+    }
+
+    public void reset() {
+        // TODO
     }
 
     public void setRollButtonEnabled(boolean enabled) {
@@ -37,7 +46,7 @@ public class YatzyWindow extends JFrame {
 
     public boolean[] getDiceButtonStatus() {
         // TODO
-        return new boolean[] {};
+        return new boolean[]{};
     }
 
     public void updateDiceButtons() {
@@ -46,7 +55,7 @@ public class YatzyWindow extends JFrame {
         }
     }
 
-    private void initDefaultGUI(DiceCollection dice) {
+    private void initDefaultGUI() {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.X_AXIS));
         this.add(wrapper);
@@ -62,6 +71,7 @@ public class YatzyWindow extends JFrame {
         for (DiceCombination combination : DiceCombination.values()) {
             CombinationButton combinationButton = new CombinationButton(combination);
             combinationButton.addActionListener(this::fireActionPerformed);
+            combinationButton.setActionCommand("Combination");
             combinationPanel.add(combinationButton);
         }
 
@@ -87,27 +97,24 @@ public class YatzyWindow extends JFrame {
         //rollPanel.setLayout(new FlowLayout());
         //diceWrapper.add(rollPanel);
 
-        for (Dice die : dice) {
-            DiceButton diceButton = new DiceButton(die);
+        for (int i = 0; i < 6; i++) {
+            DiceButton diceButton = new DiceButton(Dice.standard());
             diceButton.addActionListener(this::fireActionPerformed);
+            diceButton.setActionCommand("Dice");
             dicePanel.add(diceButton);
             this.diceButtons.add(diceButton);
         }
 
         dicePanel.add(new JSeparator(JSeparator.VERTICAL));
 
-        JButton rollButton = new JButton("Roll");
+        JButton rollButton = new JButton("Roll dice");
         rollButton.addActionListener(this::fireActionPerformed);
+        rollButton.setActionCommand("Roll");
         this.rollButton = rollButton;
         //rollPanel.add(rollButton);
 
         //diceWrapper.add(new JSeparator(JSeparator.VERTICAL));
         //scoreBoardWrapper.add(new JSeparator(JSeparator.VERTICAL));
-
-        this.pack();
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setVisible(true);
     }
 
     private void fireActionPerformed(ActionEvent event) {
@@ -118,13 +125,5 @@ public class YatzyWindow extends JFrame {
                 ((ActionListener) listener).actionPerformed(event);
             }
         }
-    }
-
-    public void addActionListener(ActionListener listener) {
-        this.listenerList.add(ActionListener.class, listener);
-    }
-
-    public void removeActionListener(ActionListener listener) {
-        this.listenerList.remove(ActionListener.class, listener);
     }
 }

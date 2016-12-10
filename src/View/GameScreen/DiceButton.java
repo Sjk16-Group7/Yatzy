@@ -1,9 +1,10 @@
-package View.MainWindow;
+package View.GameScreen;
 
-import Model.Dice.Dice;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import Model.Dice.Dice;
 
 public class DiceButton extends JButton {
     private Dice dice;
