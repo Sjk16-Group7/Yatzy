@@ -1,5 +1,7 @@
 package Model.Dice;
 
+import java.util.HashMap;
+
 /**
  * YatzyDiceCollection is an extension of DiceCollection that always contains 5 Dice and has
  * additional methods specific to the game Yahtzee.
@@ -21,11 +23,6 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return              boolean indicating if combination is valid with this
      */
     public boolean match(DiceCombination combination) {
-        // chance is the only exception and is always valid
-        if (combination.equals(DiceCombination.CHANCE)) {
-            return true;
-        }
-
         // combination is valid if the score it yields isn't 0
         return this.getScore(combination) > 0;
     }
@@ -37,21 +34,21 @@ public class YatzyDiceCollection extends DiceCollection {
      */
     public int getScore(DiceCombination combination) {
         switch (combination) {
-            case ACES: return this.getAcesScore();
-            case TWOS: return this.getTwosScore();
-            case THREES: return this.getThreesScore();
-            case FOURS: return this.getFoursScore();
-            case FIVES: return this.getFivesScore();
-            case SIXES: return this.getSixesScore();
-            case ONE_PAIR: return this.getOnePairScore();
-            case TWO_PAIRS: return this.getTwoPairsScore();
+            case ACES:            return this.getAcesScore();
+            case TWOS:            return this.getTwosScore();
+            case THREES:          return this.getThreesScore();
+            case FOURS:           return this.getFoursScore();
+            case FIVES:           return this.getFivesScore();
+            case SIXES:           return this.getSixesScore();
+            case ONE_PAIR:        return this.getOnePairScore();
+            case TWO_PAIRS:       return this.getTwoPairsScore();
             case THREE_OF_A_KIND: return this.getThreeOfAKindScore();
-            case FOUR_OF_A_KIND: return this.getFourOfAKindScore();
-            case SMALL_STRAIGHT: return this.getSmallStraightScore();
-            case LARGE_STRAIGHT: return this.getLargeStraightScore();
-            case FULL_HOUSE: return this.getFullHouseScore();
-            case CHANCE: return this.getChanceScore();
-            case YATZY: return this.getYatzyScore();
+            case FOUR_OF_A_KIND:  return this.getFourOfAKindScore();
+            case SMALL_STRAIGHT:  return this.getSmallStraightScore();
+            case LARGE_STRAIGHT:  return this.getLargeStraightScore();
+            case FULL_HOUSE:      return this.getFullHouseScore();
+            case CHANCE:          return this.getChanceScore();
+            case YATZY:           return this.getYatzyScore();
         }
 
         // yield a score of zero if combination isn't supported.
@@ -64,8 +61,7 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getAcesScore() {
-        // TODO
-        return 0;
+        return this.occurrences(1);
     }
 
     /**
@@ -73,8 +69,7 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getTwosScore() {
-        // TODO
-        return 0;
+        return this.occurrences(2) * 2;
     }
 
     /**
@@ -82,8 +77,7 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getThreesScore() {
-        // TODO
-        return 0;
+        return this.occurrences(3) * 3;
     }
 
     /**
@@ -91,8 +85,7 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getFoursScore() {
-        // TODO
-        return 0;
+        return this.occurrences(4) * 4;
     }
 
     /**
@@ -100,8 +93,7 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getFivesScore() {
-        // TODO
-        return 0;
+        return this.occurrences(5) * 5;
     }
 
     /**
@@ -109,8 +101,7 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getSixesScore() {
-        // TODO
-        return 0;
+        return this.occurrences(6) * 6;
     }
 
     /**
@@ -118,8 +109,21 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getOnePairScore() {
-        // TODO
-        return 0;
+        int score = 0;
+        HashMap<Integer, Integer> occurences = this.occurrences();
+
+        for (int value : occurences.keySet()) {
+            if (occurences.get(value) < 2) {
+                // skip if there are less than 2 of value because it's not a pair
+                continue;
+            }
+
+            if (score < value * 2) {
+                score = value * 2;
+            }
+        }
+
+        return score;
     }
 
     /**
@@ -127,8 +131,29 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getTwoPairsScore() {
-        // TODO
-        return 0;
+        int firstPairScore = 0;
+        int secondPairScore = 0;
+        HashMap<Integer, Integer> occurences = this.occurrences();
+
+        for (int value : occurences.keySet()) {
+            if (occurences.get(value) < 2) {
+                // skip if there are less than 2 of value because it's not a pair
+                continue;
+            }
+
+            if (firstPairScore < value * 2 && firstPairScore <= secondPairScore) {
+                firstPairScore = value * 2;
+            } else if (secondPairScore < value * 2) {
+                secondPairScore= value * 2;
+            }
+        }
+
+        if (firstPairScore == 0 || secondPairScore == 0) {
+            // there are not two pairs
+            return 0;
+        }
+
+        return firstPairScore + secondPairScore;
     }
 
     /**
@@ -136,8 +161,21 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getThreeOfAKindScore() {
-        // TODO
-        return 0;
+        int score = 0;
+        HashMap<Integer, Integer> occurences = this.occurrences();
+
+        for (int value : occurences.keySet()) {
+            if (occurences.get(value) < 3) {
+                // skip if there are less than 3 of value because it's not three of a kind
+                continue;
+            }
+
+            if (score < value * 3) {
+                score = value * 3;
+            }
+        }
+
+        return score;
     }
 
     /**
@@ -145,8 +183,21 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getFourOfAKindScore() {
-        // TODO
-        return 0;
+        int score = 0;
+        HashMap<Integer, Integer> occurences = this.occurrences();
+
+        for (int value : occurences.keySet()) {
+            if (occurences.get(value) < 4) {
+                // skip if there are less than 4 of value because it's not four of a kind
+                continue;
+            }
+
+            if (score < value * 4) {
+                score = value * 4;
+            }
+        }
+
+        return score;
     }
 
     /**
@@ -154,8 +205,15 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getSmallStraightScore() {
-        // TODO
-        return 0;
+        for (int value : new int[] { 1, 2, 3, 4, 5 }) {
+            if (!this.has(value)) {
+                // missing value, meaning it's not a small straight
+                return 0;
+            }
+        }
+
+        // return the score of a small straight
+        return 15;
     }
 
     /**
@@ -163,8 +221,15 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getLargeStraightScore() {
-        // TODO
-        return 0;
+        for (int value : new int[] { 2, 3, 4, 5, 6 }) {
+            if (!this.has(value)) {
+                // missing value, meaning it's not a large straight
+                return 0;
+            }
+        }
+
+        // return the score of a large straight
+        return 20;
     }
 
     /**
@@ -181,8 +246,7 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getChanceScore() {
-        // TODO
-        return 0;
+        return this.getSum();
     }
 
     /**
@@ -190,8 +254,12 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getYatzyScore() {
-        // TODO
-        return 0;
+        if (this.occurrences().keySet().size() != 1) {
+            // all dice does not have the same value
+            return 0;
+        }
+
+        return this.getSum();
     }
 
     /**
