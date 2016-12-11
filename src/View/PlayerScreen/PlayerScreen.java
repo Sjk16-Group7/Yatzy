@@ -156,9 +156,24 @@ public class PlayerScreen extends YatzyScreen {
      * Removes a name and the panel associated with it
      * @param name the name
      */
-    private void removePlayer(String name, JPanel associatedPanel) { // TODO
+    private void removePlayer(String name) {
         this.playerNames.remove(name);
-        this.removePlayerPanel(associatedPanel);
+
+        for (Component textFieldPanel : this.textFieldPanel.getComponents()) {
+            if (textFieldPanel instanceof JPanel) {
+                Component textField = ((JPanel) textFieldPanel).getComponent(0);
+                if (textField instanceof JTextField) {
+                    String text = ((JTextField) textField).getText();
+
+                    if (!text.equals(name)) {
+                        continue;
+                    }
+
+                    this.removePlayerPanel((JPanel) textFieldPanel);
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -211,7 +226,7 @@ public class PlayerScreen extends YatzyScreen {
         if (enabled) {
             listener = event -> this.addPlayer(textField.getText());
         } else {
-            listener = event -> this.removePlayer(textField.getText(), panel);
+            listener = event -> this.removePlayer(textField.getText());
         }
 
         textField.addActionListener(event -> button.doClick());
