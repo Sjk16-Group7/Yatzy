@@ -193,4 +193,22 @@ public class YatzyDiceCollection extends DiceCollection {
         // TODO
         return 0;
     }
+
+    /**
+     * Gets a String representation of this class
+     * @return a String representation of this class
+     */
+    @Override
+    public String toString() {
+        return "YatzyDiceCollection(size:" + this.size() + ")";
+    }
+
+    /**
+     * Gets an identical new Object of the type class as this
+     * @return a new instance identical to this
+     */
+    @Override
+    public YatzyDiceCollection clone() {
+        return (YatzyDiceCollection) super.clone();
+    }
 }

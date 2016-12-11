@@ -31,7 +31,7 @@ public class ScoreBoard {
     /**
      * Static constructor specifying the rows of the new ScoreBoard
      * @param rows the rows to use
-     * @return      a new ScoreBoard
+     * @return     a new ScoreBoard
      */
 	public static ScoreBoard fromRows(ScoreBoardCell[][] rows) {
 	    ScoreBoard scoreBoard = new ScoreBoard();
@@ -46,7 +46,7 @@ public class ScoreBoard {
     /**
      * Static constructor specifying the columns of the new ScoreBoard
      * @param columns the columns to use
-     * @return         a new ScoreBoard
+     * @return        a new ScoreBoard
      */
 	public static ScoreBoard fromColumns(ScoreBoardCell[][] columns) {
 	    ScoreBoard scoreBoard = new ScoreBoard();
@@ -69,7 +69,7 @@ public class ScoreBoard {
     /**
      * Gets a specific row of this scoreboard
      * @param index the index of the row
-     * @return       an array representing a row
+     * @return      an array representing a row
      */
 	public ScoreBoardCell[] getRow(int index) {
 	    return this.board[index].clone();
@@ -78,7 +78,7 @@ public class ScoreBoard {
     /**
      * Gets a specific column of this scoreboard
      * @param index the index of the column
-     * @return       an array representing a column
+     * @return      an array representing a column
      */
     public ScoreBoardCell[] getColumn(int index) {
         ScoreBoardCell[] column = new ScoreBoardCell[this.rows];
@@ -96,7 +96,7 @@ public class ScoreBoard {
      * Gets a specific cell
      * @param row    the row index of the cell
      * @param column the column index of the cell
-     * @return        the cell
+     * @return       the cell
      */
 	public ScoreBoardCell getCell(int row, int column) {
 		return this.board[row][column];
@@ -165,7 +165,7 @@ public class ScoreBoard {
     /**
      * Checks whether this and another Object of the same type are equal
      * @param board the other Object to compare with
-     * @return       a boolean indicating if this and the other Object are equal
+     * @return      a boolean indicating if this and the other Object are equal
      */
     public boolean equals(ScoreBoard board) {
         for (int row = 0; row < this.rows; row++) {
