@@ -122,7 +122,9 @@ public class Yatzy {
      * @param pick the clicked combinationButton
      */
     private void onCombinationPick(CombinationButton pick) {
-        System.out.println("comb");
+        // Just a test below, to see what score the selection yields, remove!
+        DiceCombination combination = pick.getCombination();
+        System.out.println("Score: " + this.dice.getScore(combination));
         // TODO calculate points or cross
 
         this.onNewTurn();
@@ -166,7 +168,7 @@ public class Yatzy {
             boolean alreadyFilled = !cell.isEmpty() || cell.isCrossed();
 
             // disable combinationButton if it doesn't match or is already filled
-            combinationButtons.get(combination).setEnabled(matches && alreadyFilled);
+            combinationButtons.get(combination).setEnabled(matches && !alreadyFilled);
         }
 
         // TODO enable all if none matches and be ready to cross instead of count points
