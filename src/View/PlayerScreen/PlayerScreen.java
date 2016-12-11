@@ -9,52 +9,68 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.EventListenerList;
+
+import View.YatzyScreen;
 
 import static View.ViewHelper.createSquareButton;
 
-public class PlayerScreen extends JPanel {
+/**
+ * PlayerScreen is a view panel showing the start screen and player selection.
+ * Possible ActionCommands listeners may recieve include:
+ *     Ok:        When the OK button is pressed
+ *     Add:       When a name is added
+ *     Remove:    When a name is removed
+ *     Change:    When the panel has changed
+ * @author Isak
+ */
+public class PlayerScreen extends YatzyScreen {
     private static final int MAX_PLAYERS = 8;
 
-    private EventListenerList listenerList = new EventListenerList();
     private ArrayList<String> playerNames = new ArrayList<String>();
-    private JPanel textFieldPanel = new JPanel();
-    private JButton OkButton = new JButton("Play!");
-    private JPanel addPanel = this.createPlayerEditPanel(true, "");
+    private JButton OkButton;
+    private JPanel addPanel;
+    private JPanel textFieldPanel;
 
-    public PlayerScreen() {
-        this.initDefaultGUI();
-    }
-
+    /**
+     * Gets the currently added player names
+     * @return the names
+     */
     public ArrayList<String> getPlayerNames() {
         return this.playerNames;
     }
 
-    public void addActionListener(ActionListener listener) {
-        this.listenerList.add(ActionListener.class, listener);
-    }
-
-    public void removeActionListener(ActionListener listener) {
-        this.listenerList.remove(ActionListener.class, listener);
-    }
-
+    /**
+     * Resets the GUI components of this panel
+     */
+    @Override
     public void reset() {
+        super.reset();
+
         for (String name : this.playerNames) {
+            // remove all panels
             this.textFieldPanel.remove(0);
         }
 
+        // remove all names
         this.playerNames.clear();
+
+        this.fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Change"));
     }
 
-    private void initDefaultGUI() {
+    /**
+     * Initiates the GUI components of this panel
+     */
+    @Override
+    protected void initDefaultGUI() {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BorderLayout());
-        this.add(wrapper);
+        this.add(wrapper, BorderLayout.CENTER);
 
         JPanel playerPanel = new JPanel();
         playerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         wrapper.add(playerPanel, BorderLayout.CENTER);
 
+        this.textFieldPanel = new JPanel();
         this.textFieldPanel.setLayout(new GridLayout(0, 1, 0, 5));
         this.textFieldPanel.setBorder(
             new CompoundBorder(
@@ -64,17 +80,22 @@ public class PlayerScreen extends JPanel {
         );
         playerPanel.add(this.textFieldPanel);
 
+        this.addPanel = this.createPlayerEditPanel(true, "");
         this.textFieldPanel.add(this.addPanel);
 
         JPanel confirmationPanel = new JPanel();
         confirmationPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
         wrapper.add(confirmationPanel, BorderLayout.SOUTH);
 
+        this.OkButton = new JButton("Play!");
         this.OkButton.setActionCommand("Ok");
         this.OkButton.addActionListener(this::fireActionPerformed);
         confirmationPanel.add(this.OkButton);
     }
 
+    /**
+     * Clears the add textfield
+     */
     private void clearAddPanel() {
         Component component = this.addPanel.getComponent(0);
 
@@ -83,6 +104,9 @@ public class PlayerScreen extends JPanel {
         }
     }
 
+    /**
+     * Sets focus to the add textfield
+     */
     private void focusAddPanel() {
         Component component = this.addPanel.getComponent(0);
 
@@ -91,12 +115,17 @@ public class PlayerScreen extends JPanel {
         }
     }
 
+    /**
+     * Adds a name and panel including a disabled textfield with a players name and a delete
+     * button associated with it, but only if validation succeeds.
+     * @param name the name
+     */
     private void addPlayer(String name) {
         boolean error = false;
         String errorMessage = "";
 
-        if (name.isEmpty()) {
-            errorMessage = "Player name cannot be empty!";
+        if (name.trim().isEmpty()) {
+            errorMessage = "A players' name cannot be nothing!";
             error = true;
         } else if (this.playerNames.size() >= MAX_PLAYERS) {
             errorMessage = "Maximum amount of players reached! (" + MAX_PLAYERS + ")";
@@ -115,7 +144,6 @@ public class PlayerScreen extends JPanel {
             );
 
             this.focusAddPanel();
-
             return;
         }
 
@@ -124,11 +152,19 @@ public class PlayerScreen extends JPanel {
         this.playerNames.add(name);
     }
 
-    private void removePlayer(String name, JPanel associatedPanel) {
+    /**
+     * Removes a name and the panel associated with it
+     * @param name the name
+     */
+    private void removePlayer(String name, JPanel associatedPanel) { // TODO
         this.playerNames.remove(name);
         this.removePlayerPanel(associatedPanel);
     }
 
+    /**
+     * Adds a player panel to the view
+     * @param panel the panel
+     */
     private void addPlayerPanel(JPanel panel) {
         this.textFieldPanel.add(panel, this.playerNames.size());
 
@@ -138,6 +174,10 @@ public class PlayerScreen extends JPanel {
         this.updateUI();
     }
 
+    /**
+     * Removes a player panel from the view
+     * @param panel the panel
+     */
     private void removePlayerPanel(JPanel panel) {
         this.textFieldPanel.remove(panel);
 
@@ -146,12 +186,20 @@ public class PlayerScreen extends JPanel {
         this.updateUI();
     }
 
-    private JPanel createPlayerEditPanel(boolean enabled, String text) {
+    /**
+     * Creates a "player panel" consisting of a textfield with a name, and a button either removing
+     * the corresponding player, or adding a new player based on what's in the textfield. This is
+     * determined by if the panel is enabled or not.
+     * @param enabled a boolean indicating whether panel should be enabled or disabled
+     * @param playerName the name of the player
+     * @return the panel
+     */
+    private JPanel createPlayerEditPanel(boolean enabled, String playerName) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(5, 0));
 
         JTextField textField = new JTextField(20);
-        textField.setText(text);
+        textField.setText(playerName);
         textField.setEditable(enabled);
         panel.add(textField, BorderLayout.CENTER);
 
@@ -172,15 +220,5 @@ public class PlayerScreen extends JPanel {
         button.addActionListener(listener);
 
         return panel;
-    }
-
-    private void fireActionPerformed(ActionEvent event) {
-        Object[] listeners = listenerList.getListenerList();
-
-        for (Object listener : listeners) {
-            if (listener instanceof ActionListener) {
-                ((ActionListener) listener).actionPerformed(event);
-            }
-        }
     }
 }

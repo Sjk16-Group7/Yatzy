@@ -1,23 +1,33 @@
 package View.WinScreen;
 
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-import javax.swing.*;
+import View.YatzyScreen;
 
-public class WinScreen extends JPanel {
-    public WinScreen() {
-        this.initDefaultGUI();
-    }
-
-    public void addActionListener(ActionListener listener) {
-//        this.OkButton.addActionListener(listener);
-    }
-
-    public void removeActionListener(ActionListener listener) {
-//        this.OkButton.removeActionListener(listener);
-    }
-
-    private void initDefaultGUI() {
+/**
+ * WinScreen is a view panel showing the final scores and the winner of a game.
+ * Possible ActionCommands listeners may recieve from this class include:
+ *     Change:      When the panel has changed
+ * @author Isak
+ */
+public class WinScreen extends YatzyScreen {
+    /**
+     * Initiates the GUI components of this panel
+     */
+    @Override
+    protected void initDefaultGUI() {
         // TODO
+    }
+
+    /**
+     * Resets the GUI components of this panel
+     */
+    @Override
+    public void reset() {
+        super.reset();
+
+        // TODO
+
+        this.fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Change"));
     }
 }
