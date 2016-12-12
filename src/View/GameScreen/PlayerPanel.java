@@ -74,10 +74,10 @@ public class PlayerPanel extends JPanel {
 
     /**
      * Sets whether it's a players turn or not
-     * @param enabled setting this to true will display an icon above the players name
+     * @param active setting this to true will display an icon above the players name
      */
-    public void setEnabled(boolean enabled) {
-        if (enabled) {
+    public void setActive(boolean active) {
+        if (active) {
             this.currentPlayerLabel.setIcon(currentPlayerIcon);
         } else {
             this.currentPlayerLabel.setIcon(null);
@@ -127,6 +127,6 @@ public class PlayerPanel extends JPanel {
             scorePanel.add(textField);
         }
 
-        this.setEnabled(false);
+        this.setActive(false);
     }
 }

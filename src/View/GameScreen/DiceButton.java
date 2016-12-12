@@ -6,6 +6,11 @@ import javax.swing.*;
 
 import Model.Dice.Dice;
 
+/**
+ * DiceButton is an extension of JButton, customized to have a Dice associated with it and to
+ * be a square with changing graphics.
+ * @author Isak
+ */
 public class DiceButton extends JButton {
     private Dice dice;
 
@@ -27,18 +32,30 @@ public class DiceButton extends JButton {
         new ImageIcon(DiceButton.class.getResource("/Dice6inactive.png"))
     };
 
+    /**
+     * Class constructor specifying the Dice to associate with it
+     * @param dice the Dice
+     */
     public DiceButton(Dice dice) {
         super();
 
         this.dice = dice;
-
+        this.setActionCommand("Dice");
         this.initAppearance();
     }
 
+    /**
+     * Gets the associated Dice
+     * @return the Dice
+     */
     public Dice getDice() {
         return this.dice;
     }
 
+    /**
+     * Updates the graphics of the button. (this needs to be explicitly called to update, there
+     * may be a better way to do this...)
+     */
     public void update() {
         ImageIcon image_normal = DICE_IMAGES_NORMAL[dice.getValue() - 1];
         ImageIcon image_hold   = DICE_IMAGES_HOLD[dice.getValue() - 1];
@@ -47,10 +64,13 @@ public class DiceButton extends JButton {
         this.setDisabledIcon(image_hold);
         this.setSelectedIcon(image_hold);
         this.setDisabledSelectedIcon(image_hold);
-//        this.setRolloverIcon(image_hold);
-//        this.setRolloverSelectedIcon(image_hold);
+        // this.setRolloverIcon(image_hold);
+        // this.setRolloverSelectedIcon(image_hold);
     }
 
+    /**
+     * Initiates the appearance of this Component
+     */
     private void initAppearance() {
         this.addActionListener(event -> this.setSelected(!this.isSelected()));
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -62,6 +82,9 @@ public class DiceButton extends JButton {
         this.reset();
     }
 
+    /**
+     * Resets the appearance of this Component
+     */
     public void reset() {
         this.setEnabled(false);
         this.setSelected(false);
