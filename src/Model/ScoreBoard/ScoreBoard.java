@@ -37,8 +37,7 @@ public class ScoreBoard {
 	    ScoreBoard scoreBoard = new ScoreBoard();
         scoreBoard.board = rows;
 
-        // TODO doesn't clone the cells
-        // TODO doesn't set rows/columns
+        // TODO doesn't clone the cells & doesn't set rows/columns
 
 	    return scoreBoard;
     }
