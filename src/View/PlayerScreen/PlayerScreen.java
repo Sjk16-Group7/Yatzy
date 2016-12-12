@@ -24,7 +24,8 @@ import static View.ViewHelper.createSquareButton;
  * @author Isak
  */
 public class PlayerScreen extends YatzyScreen {
-    private static final int MAX_PLAYERS = 8;
+    private static final int MAX_PLAYERS_LIMIT = 8;
+    private static final int PLAYER_CHAR_LIMIT = 12;
 
     private ArrayList<String> playerNames = new ArrayList<String>();
     private JButton OkButton;
@@ -121,21 +122,19 @@ public class PlayerScreen extends YatzyScreen {
      * @param name the name
      */
     private void addPlayer(String name) {
-        boolean error = false;
-        String errorMessage = "";
+        String errorMessage = null;
 
         if (name.trim().isEmpty()) {
             errorMessage = "A players' name cannot be nothing!";
-            error = true;
-        } else if (this.playerNames.size() >= MAX_PLAYERS) {
-            errorMessage = "Maximum amount of players reached! (" + MAX_PLAYERS + ")";
-            error = true;
+        } else if (name.length() > PLAYER_CHAR_LIMIT) {
+            errorMessage = "Name exceeds character limit! (" + PLAYER_CHAR_LIMIT + ")";
+        } else if (this.playerNames.size() >= MAX_PLAYERS_LIMIT) {
+            errorMessage = "Maximum amount of players reached! (" + MAX_PLAYERS_LIMIT + ")";
         } else if (this.playerNames.contains(name)) {
-            errorMessage = "'" + name + "' is already listed as a player!";
-            error = true;
+            errorMessage = "Name is already present! (" + name + ")";
         }
 
-        if (error) {
+        if (errorMessage != null) {
             JOptionPane.showMessageDialog(
                 this.getParent(),
                 errorMessage,

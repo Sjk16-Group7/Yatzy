@@ -14,6 +14,7 @@ import Model.ScoreBoard.ScoreBoardCell;
 import Model.ScoreBoard.YatzyScoreBoard;
 import View.GameScreen.CombinationButton;
 import View.GameScreen.DiceButton;
+import View.GameScreen.PlayerPanel;
 import View.YatzyWindow;
 
 /**
@@ -69,17 +70,40 @@ public class Yatzy {
         }
     };
 
-    // TODO listener for menu, run onStart() on new Game, dispose on Exit et.c.
+    /**
+     * Listener for actions in the window
+     */
+    private ActionListener windowListener = event -> {
+        switch (event.getActionCommand().toLowerCase()) {
+            case "newgame":
+                this.onNewGame();
+                break;
+            case "exit":
+                this.onExit();
+                break;
+            case "about":
+                // TODO
+                break;
+            case "help":
+                // TODO
+                break;
+            case "change":
+                this.view.pack();
+                break;
+        }
+    };
 
     private YatzyWindow view;
     private ArrayList<YatzyPlayer> players;
     private YatzyPlayer currentPlayer;
+    private PlayerAction playerAction;
     private YatzyDiceCollection dice;
 
     /**
      * Class default constructor
      */
     public Yatzy() {
+        this.view = new YatzyWindow();
         this.players = new ArrayList<YatzyPlayer>();
         this.dice = new YatzyDiceCollection();
 
@@ -90,16 +114,32 @@ public class Yatzy {
      * Called when a new game starts
      */
     private void onStart() {
-        this.view = new YatzyWindow();
+        this.view.reset();
         this.view.gameScreen.setDice(this.dice);
-        this.view.gameScreen.setPlayers(this.players);
 
+        this.view.addActionListener(this.windowListener);
         this.view.gameScreen.addActionListener(this.gameScreenListener);
         this.view.playerScreen.addActionListener(this.playerScreenListener);
         this.view.winScreen.addActionListener(this.winScreenListener);
 
         // this.view.winScreen.reset(); // needed?
         this.view.setScreen(this.view.playerScreen);
+    }
+
+    /**
+     * Called when user starts a new game
+     */
+    private void onNewGame() {
+        int response = JOptionPane.showConfirmDialog(
+            this.view,
+            "Are you sure?",
+            "New game confirmation",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (response == JOptionPane.OK_OPTION) {
+            this.onStart();
+        }
     }
 
     /**
@@ -116,16 +156,44 @@ public class Yatzy {
     }
 
     /**
+     * Called when program is exiting
+     */
+    private void onExit() {
+        int response = JOptionPane.showConfirmDialog(
+            this.view,
+            "Are you sure?",
+            "Exit confirmation",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (response == JOptionPane.OK_OPTION) {
+            this.view.dispose();
+        }
+    }
+
+    /**
      * Called when a combinationButton has been clicked in the game view. Crosses or gives score
      * to the associated scoreboard field of the pick for the current player. Also updates the
      * game view, and starts a new turn.
      * @param pick the clicked combinationButton
      */
     private void onCombinationPick(CombinationButton pick) {
-        // Just a test below, to see what score the selection yields, remove!
         DiceCombination combination = pick.getCombination();
-        System.out.println("Score: " + this.dice.getScore(combination));
-        // TODO calculate points or cross
+        ScoreBoardCell cell = this.currentPlayer.getScoreBoard().getCell(combination);
+        PlayerPanel playerPanel = this.view.gameScreen.getPlayerPanels().get(this.currentPlayer);
+
+        switch (this.playerAction) {
+            case CROSS:
+                cell.setCrossed(true);
+                break;
+            case SCORE:
+                int score = this.dice.getScore(combination);
+                cell.setValue(score);
+                break;
+        }
+
+        // update display of player scoreboard
+        playerPanel.update();
 
         this.onNewTurn();
     }
@@ -157,6 +225,9 @@ public class Yatzy {
 
         HashMap<DiceCombination, CombinationButton> combinationButtons = this.view.gameScreen.getCombinationButtons();
 
+        // determines if player will cross a cell instead of scoring
+        boolean cross = true;
+
         for (DiceCombination combination : combinationButtons.keySet()) {
             YatzyScoreBoard scoreBoard = this.currentPlayer.getScoreBoard();
             ScoreBoardCell cell = scoreBoard.getCell(combination);
@@ -167,11 +238,29 @@ public class Yatzy {
             // check if corresponding cell is filled or crossed
             boolean alreadyFilled = !cell.isEmpty() || cell.isCrossed();
 
+            boolean valid = matches && ! alreadyFilled;
+
+            if (valid) {
+                cross = false;
+            }
+
             // disable combinationButton if it doesn't match or is already filled
-            combinationButtons.get(combination).setEnabled(matches && !alreadyFilled);
+            combinationButtons.get(combination).setEnabled(valid);
         }
 
-        // TODO enable all if none matches and be ready to cross instead of count points
+        if (cross && !this.currentPlayer.hasRollsLeft()) {
+            // enable all non-filled combination buttons
+            for (DiceCombination combination : combinationButtons.keySet()) {
+                YatzyScoreBoard scoreBoard = this.currentPlayer.getScoreBoard();
+                ScoreBoardCell cell = scoreBoard.getCell(combination);
+
+                combinationButtons.get(combination).setEnabled(cell.isEmpty() && !cell.isCrossed());
+            }
+
+            this.playerAction = PlayerAction.CROSS;
+        } else {
+            this.playerAction = PlayerAction.SCORE;
+        }
     }
 
     /**
@@ -193,6 +282,8 @@ public class Yatzy {
             return;
         }
 
+        this.players.clear();
+
         for (String name : names) {
             this.players.add(new YatzyPlayer(name));
         }
@@ -200,6 +291,8 @@ public class Yatzy {
         // update views
         this.view.playerScreen.reset();
         this.view.setScreen(this.view.gameScreen);
+
+        this.view.gameScreen.setPlayers(this.players);
 
         this.onNewTurn();
     }
@@ -215,9 +308,7 @@ public class Yatzy {
             return;
         }
 
-        /*
-         * Set new current player
-         */
+        // set new current player
         int newPlayerIndex;
 
         if (this.currentPlayer == null) {
@@ -232,9 +323,7 @@ public class Yatzy {
         this.currentPlayer = this.players.get(newPlayerIndex);
         this.currentPlayer.resetRollsLeft();
 
-        /*
-         * Reset the view
-         */
+        // reset the view
         this.view.gameScreen.getRollButton().setEnabled(true);
 
         for (DiceButton diceButton : this.view.gameScreen.getDiceButtons()) {
@@ -245,7 +334,14 @@ public class Yatzy {
             combinationButton.setEnabled(false);
         }
 
-        // TODO update view with new current player
+        // update current player
+        HashMap<YatzyPlayer, PlayerPanel> playerPanels = this.view.gameScreen.getPlayerPanels();
+
+        for (PlayerPanel panel : playerPanels.values()) {
+            panel.setActive(false);
+        }
+
+        playerPanels.get(this.currentPlayer).setActive(true);
     }
 
     /**

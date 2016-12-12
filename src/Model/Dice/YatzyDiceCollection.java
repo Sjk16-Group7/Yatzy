@@ -237,8 +237,19 @@ public class YatzyDiceCollection extends DiceCollection {
      * @return the score
      */
     private int getFullHouseScore() {
-        // TODO
-        return 0;
+        // TODO this only work for a collection of 5 Dice (that's no fun!)
+
+        if (this.size() < 5) {
+            return 0;
+        }
+
+        for (int occurence : this.occurrences().values()) {
+            if (occurence != 2 && occurence != 3 && occurence != 5) {
+                return 0;
+            }
+        }
+
+        return this.getSum();
     }
 
     /**
@@ -260,24 +271,6 @@ public class YatzyDiceCollection extends DiceCollection {
         }
 
         return this.getSum();
-    }
-
-    /**
-     * Gets a String representation of this class
-     * @return a String representation of this class
-     */
-    @Override
-    public String toString() {
-        return "YatzyDiceCollection(size:" + this.size() + ")";
-    }
-
-    /**
-     * Gets an identical new Object of the type class as this
-     * @return a new instance identical to this
-     */
-    @Override
-    public YatzyDiceCollection clone() {
-        return (YatzyDiceCollection) super.clone();
     }
 
     /**
