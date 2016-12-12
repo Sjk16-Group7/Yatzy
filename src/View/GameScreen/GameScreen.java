@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.SoftBevelBorder;
 
 import Model.Dice.Dice;
 import Model.Dice.DiceCollection;
@@ -25,10 +29,11 @@ import View.YatzyScreen;
 public class GameScreen extends YatzyScreen {
     private ArrayList<DiceButton> diceButtons;
     private HashMap<DiceCombination, CombinationButton> combinationButtons;
+    private HashMap<YatzyPlayer, PlayerPanel> playerPanels;
     private JButton rollButton;
     private JPanel dicePanel;
     private JPanel combinationPanel;
-    private JPanel tablePanel;
+    private JPanel playerPanel;
 
     /**
      * Gets the roll button
@@ -45,6 +50,14 @@ public class GameScreen extends YatzyScreen {
      */
     public HashMap<DiceCombination, CombinationButton> getCombinationButtons() {
         return this.combinationButtons;
+    }
+
+    /**
+     * Gets the player panels in a HashMap with their corresponding YatzyPlayer as keys
+     * @return the player panels
+     */
+    public HashMap<YatzyPlayer, PlayerPanel> getPlayerPanels() {
+        return this.playerPanels;
     }
 
     /**
@@ -66,7 +79,6 @@ public class GameScreen extends YatzyScreen {
         for (Dice d : dice) {
             DiceButton diceButton = new DiceButton(d);
             diceButton.addActionListener(this::fireActionPerformed);
-            diceButton.setActionCommand("Dice");
             this.dicePanel.add(diceButton);
             this.diceButtons.add(diceButton);
         }
@@ -79,7 +91,16 @@ public class GameScreen extends YatzyScreen {
      * @param players the players to use as a model for the playerPanels of the view
      */
     public void setPlayers(ArrayList<YatzyPlayer> players) {
-        // TODO
+        this.playerPanel.removeAll();
+        this.playerPanels.clear();
+
+        for (YatzyPlayer player : players) {
+            PlayerPanel panel = new PlayerPanel(player);
+            this.playerPanel.add(panel);
+            this.playerPanels.put(player, panel);
+        }
+
+        this.fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Change"));
     }
 
     /**
@@ -94,7 +115,6 @@ public class GameScreen extends YatzyScreen {
         for (DiceCombination combination : DiceCombination.values()) {
             CombinationButton combinationButton = new CombinationButton(combination);
             combinationButton.addActionListener(this::fireActionPerformed);
-            combinationButton.setActionCommand("Combination");
             this.combinationPanel.add(combinationButton);
             this.combinationButtons.put(combination, combinationButton);
         }
@@ -111,9 +131,8 @@ public class GameScreen extends YatzyScreen {
 
         this.removeAll();
         this.initDefaultGUI();
-        this.combinationButtons.clear();
         this.diceButtons.clear();
-        // this.table... TODO
+        this.playerPanels.clear();
 
         this.fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Change"));
     }
@@ -125,6 +144,7 @@ public class GameScreen extends YatzyScreen {
     protected void initDefaultGUI() {
         this.diceButtons = new ArrayList<DiceButton>();
         this.combinationButtons = new HashMap<DiceCombination, CombinationButton>();
+        this.playerPanels = new HashMap<YatzyPlayer, PlayerPanel>();
 
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BorderLayout());
@@ -134,13 +154,9 @@ public class GameScreen extends YatzyScreen {
         combinationPanelWrapper.setLayout(new BorderLayout());
         wrapper.add(combinationPanelWrapper, BorderLayout.WEST);
 
-        JPanel spacingPanel = new JPanel();
-        spacingPanel.setLayout(new FlowLayout());
-        spacingPanel.setPreferredSize(new Dimension(0, 66));
-
         JPanel combinationButtonPanel = new JPanel();
-        combinationButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 6, 0));
-        combinationPanelWrapper.add(combinationButtonPanel, BorderLayout.CENTER);
+        combinationButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 4));
+        combinationPanelWrapper.add(combinationButtonPanel, BorderLayout.SOUTH);
 
         this.combinationPanel = new JPanel();
         this.combinationPanel.setLayout(new GridLayout(0, 1, 0, 2));
@@ -150,9 +166,13 @@ public class GameScreen extends YatzyScreen {
         tablePanelWrapper.setLayout(new BorderLayout());
         wrapper.add(tablePanelWrapper, BorderLayout.CENTER);
 
-        this.tablePanel = new JPanel();
-        this.tablePanel.setLayout(new GridLayout(1, 0, 2, 0));
-        tablePanelWrapper.add(this.tablePanel, BorderLayout.CENTER);
+        this.playerPanel = new JPanel();
+        this.playerPanel.setLayout(new GridLayout(1, 0, 1, 0));
+        this.playerPanel.setBorder(new CompoundBorder(
+            new SoftBevelBorder(BevelBorder.LOWERED),
+            new EmptyBorder(0, 5, 0, 5)
+        ));
+        tablePanelWrapper.add(this.playerPanel, BorderLayout.CENTER);
 
         JPanel dicePanelWrapper = new JPanel();
         dicePanelWrapper.setLayout(new BorderLayout());
