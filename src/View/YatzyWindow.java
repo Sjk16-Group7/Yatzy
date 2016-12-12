@@ -18,6 +18,8 @@ import View.WinScreen.WinScreen;
  *     Help:    When help is pressed in the menu
  */
 public class YatzyWindow extends JFrame {
+    private final static Image windowIcon = new ImageIcon(YatzyWindow.class.getResource("/Dice1.png")).getImage();
+
     public final GameScreen gameScreen = new GameScreen();       // game board view
     public final PlayerScreen playerScreen = new PlayerScreen(); // player view
     public final WinScreen winScreen = new WinScreen();          // game over view
@@ -50,6 +52,7 @@ public class YatzyWindow extends JFrame {
      * Initiates the GUI components of the window
      */
     private void initDefaultGUI() {
+        this.setIconImage(windowIcon);
         this.wrapper.setLayout(new BorderLayout(10, 10));
         this.add(wrapper);
 
