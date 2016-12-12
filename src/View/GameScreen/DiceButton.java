@@ -10,21 +10,21 @@ public class DiceButton extends JButton {
     private Dice dice;
 
     private static ImageIcon[] DICE_IMAGES_NORMAL = new ImageIcon[] {
-        new ImageIcon("src/Images/Dice1active.png"),
-        new ImageIcon("src/Images/Dice2active.png"),
-        new ImageIcon("src/Images/Dice3active.png"),
-        new ImageIcon("src/Images/Dice4active.png"),
-        new ImageIcon("src/Images/Dice5active.png"),
-        new ImageIcon("src/Images/Dice6active.png")
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png"))
     };
 
-    private static ImageIcon[] DICE_IMAGES_HOLD = new ImageIcon[]{
-        new ImageIcon("src/Images/Dice1inactive.png"),
-        new ImageIcon("src/Images/Dice2inactive.png"),
-        new ImageIcon("src/Images/Dice3inactive.png"),
-        new ImageIcon("src/Images/Dice4inactive.png"),
-        new ImageIcon("src/Images/Dice5inactive.png"),
-        new ImageIcon("src/Images/Dice6inactive.png")
+    private static ImageIcon[] DICE_IMAGES_HOLD = new ImageIcon[] {
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png")),
+        new ImageIcon(DiceButton.class.getResource("/Dice1.png"))
     };
 
     public DiceButton(Dice dice) {
