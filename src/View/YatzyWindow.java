@@ -16,9 +16,11 @@ import View.WinScreen.WinScreen;
  *     Exit:    When exit is pressed in the menu
  *     About:   When about is pressed in the menu
  *     Help:    When help is pressed in the menu
+ * @author Isak
+ * @author Gustav
  */
 public class YatzyWindow extends JFrame {
-    private final static Image windowIcon = new ImageIcon(YatzyWindow.class.getResource("/Dice1.png")).getImage();
+    private final static Image windowIcon = new ImageIcon(YatzyWindow.class.getResource("/Dice6active.png")).getImage();
 
     public final GameScreen gameScreen = new GameScreen();       // game board view
     public final PlayerScreen playerScreen = new PlayerScreen(); // player view
@@ -65,10 +67,10 @@ public class YatzyWindow extends JFrame {
         JMenuItem exitMenuItem = new JMenuItem("Exit");
         fileMenu.add(exitMenuItem);
 
-        JMenuItem rulesMenuItem = new JMenuItem("Rules...");
+        JMenuItem rulesMenuItem = new JMenuItem("Rules");
         helpMenu.add(rulesMenuItem);
 
-        JMenuItem helpMenuItem = new JMenuItem("About...");
+        JMenuItem helpMenuItem = new JMenuItem("About");
         helpMenu.add(helpMenuItem);
 
         menuBar.add(fileMenu);
