@@ -150,9 +150,20 @@ public class GameScreen extends YatzyScreen {
         wrapper.setLayout(new BorderLayout());
         this.add(wrapper, BorderLayout.CENTER);
 
+        wrapper.add(this.createCombinationPanel(), BorderLayout.WEST);
+        wrapper.add(this.createTablePanel(), BorderLayout.CENTER);
+        wrapper.add(this.createDicePanel(), BorderLayout.EAST);
+
+        this.setCombinations(DiceCombination.values());
+    }
+
+    /**
+     * Creates the left panel of the view, containing the combinationButtons
+     * @return a new JPanel
+     */
+    private JPanel createCombinationPanel() {
         JPanel combinationPanelWrapper = new JPanel();
         combinationPanelWrapper.setLayout(new BorderLayout());
-        wrapper.add(combinationPanelWrapper, BorderLayout.WEST);
 
         JPanel combinationButtonPanel = new JPanel();
         combinationButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 4));
@@ -162,21 +173,35 @@ public class GameScreen extends YatzyScreen {
         this.combinationPanel.setLayout(new GridLayout(0, 1, 0, 2));
         combinationButtonPanel.add(this.combinationPanel);
 
+        return combinationPanelWrapper;
+    }
+
+    /**
+     * Creates the center panel of the view, containing the playerPanels
+     * @return a new JPanel
+     */
+    private JPanel createTablePanel() {
         JPanel tablePanelWrapper = new JPanel();
         tablePanelWrapper.setLayout(new BorderLayout());
-        wrapper.add(tablePanelWrapper, BorderLayout.CENTER);
 
         this.playerPanel = new JPanel();
         this.playerPanel.setLayout(new GridLayout(1, 0, 1, 0));
         this.playerPanel.setBorder(new CompoundBorder(
-            new SoftBevelBorder(BevelBorder.LOWERED),
-            new EmptyBorder(0, 5, 0, 5)
+                new SoftBevelBorder(BevelBorder.LOWERED),
+                new EmptyBorder(0, 5, 0, 5)
         ));
         tablePanelWrapper.add(this.playerPanel, BorderLayout.CENTER);
 
+        return tablePanelWrapper;
+    }
+
+    /**
+     * Creates the right panel of the view, containing the diceButtons
+     * @return a new JPanel
+     */
+    private JPanel createDicePanel() {
         JPanel dicePanelWrapper = new JPanel();
         dicePanelWrapper.setLayout(new BorderLayout());
-        wrapper.add(dicePanelWrapper, BorderLayout.EAST);
 
         JPanel diceTopPanel = new JPanel();
         diceTopPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -194,33 +219,7 @@ public class GameScreen extends YatzyScreen {
         this.rollButton.setActionCommand("Roll");
         this.rollButton.addActionListener(this::fireActionPerformed);
         diceBottomPanel.add(this.rollButton);
-        this.setCombinations(DiceCombination.values());
-    }
 
-    /**
-     * Creates the left panel of the view, containing the combinationButtons
-     * @return a new JPanel
-     */
-    private JPanel createCombinationPanel() {
-        // TODO
-        return null;
-    }
-
-    /**
-     * Creates the center panel of the view, containing the playerPanels
-     * @return a new JPanel
-     */
-    private JPanel createTablePanel() {
-        // TODO
-        return null;
-    }
-
-    /**
-     * Creates the right panel of the view, containing the diceButtons
-     * @return a new JPanel
-     */
-    private JPanel createDicePanel(DiceCollection dice) {
-        // TODO
-        return null;
+        return dicePanelWrapper;
     }
 }
