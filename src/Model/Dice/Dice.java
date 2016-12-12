@@ -75,7 +75,7 @@ public class Dice {
 	/**
 	 * Checks whether this and another Object of the same type are equal
 	 * @param dice the other Object to compare with
-	 * @return      a boolean indicating if this and the other Object are equal
+	 * @return a boolean indicating if this and the other Object are equal
 	 */
 	public boolean equals(Dice dice) {
 		return this.value == dice.value;

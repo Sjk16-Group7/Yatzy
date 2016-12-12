@@ -67,7 +67,7 @@ public class ScoreBoardCell {
     /**
 	 * Checks whether this and another Object of the same type are equal
 	 * @param cell the other Object to compare with
-	 * @return      a boolean indicating if this and the other Object are equal
+	 * @return     a boolean indicating if this and the other Object are equal
 	 */
     public boolean equals(ScoreBoardCell cell) {
         return this.value.equals(cell.value) && this.crossed == cell.crossed;

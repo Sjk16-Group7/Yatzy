@@ -52,15 +52,30 @@ public class YatzyWindow extends JFrame {
      * Initiates the GUI components of the window
      */
     private void initDefaultGUI() {
-        this.setIconImage(windowIcon);
         this.wrapper.setLayout(new BorderLayout(10, 10));
         this.add(wrapper);
 
         JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenu helpMenu = new JMenu("Help");
+
+        JMenuItem newGameMenuItem = new JMenuItem("New Game");
+        fileMenu.add(newGameMenuItem);
+
+        JMenuItem exitMenuItem = new JMenuItem("Exit");
+        fileMenu.add(exitMenuItem);
+
+        JMenuItem rulesMenuItem = new JMenuItem("Rules...");
+        helpMenu.add(rulesMenuItem);
+
+        JMenuItem helpMenuItem = new JMenuItem("About...");
+        helpMenu.add(helpMenuItem);
+
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+
         this.setJMenuBar(menuBar);
-
-        // TODO add menu and listeners
-
+        this.setIconImage(windowIcon);
         this.setResizable(false);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
