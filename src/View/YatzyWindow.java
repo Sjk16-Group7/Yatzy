@@ -36,7 +36,7 @@ public class YatzyWindow extends JFrame {
     /**
      * Sets the view/"screen" of the window
      * @param screen the screen
-     * @see           public instance variables
+     * @see          public instance variables
      */
     public void setScreen(YatzyScreen screen) {
         this.wrapper.removeAll();
