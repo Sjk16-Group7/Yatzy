@@ -75,7 +75,7 @@ public class YatzyScoreBoard extends ScoreBoard {
     /**
      * Gets a cell associated with a specific DiceCombination
      * @param combination the combination
-     * @return             the cell
+     * @return            the cell
      */
     public ScoreBoardCell getCell(DiceCombination combination) {
         int index = Arrays.asList(DiceCombination.values()).indexOf(combination);

@@ -35,7 +35,7 @@ public class Player {
 	/**
 	 * Checks whether this and another Object of the same type are equal
 	 * @param player the other Object to compare with
-	 * @return        a boolean indicating if this and the other Object are equal
+	 * @return       a boolean indicating if this and the other Object are equal
 	 */
 	public boolean equals(Player player) {
         return this.name.equals(player.name); // are players with the same name equal, though?
