@@ -43,6 +43,14 @@ public class YatzyPlayer extends Player {
     }
 
     /**
+     * Checks whether player has all rolls left
+     * @return boolean indicating if player has all their rolls left
+     */
+    public boolean hasAllRollsLeft() {
+        return this.rollsLeft == ROLL_COUNT;
+    }
+
+    /**
      * Checks whether player has any rolls left
      * @return boolean indicating if player has any rolls left
      */

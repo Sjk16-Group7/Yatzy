@@ -36,9 +36,13 @@ public class Yatzy {
             case "combination":
                 this.onCombinationPick((CombinationButton) event.getSource());
                 break;
+            case "mode":
+                this.onModeChange();
+                break;
             case "dice":
             case "change":
-                this.view.pack();
+                System.out.println("2");
+                this.view.update();
                 break;
         }
     };
@@ -54,7 +58,7 @@ public class Yatzy {
             case "add":
             case "remove":
             case "change":
-                this.view.pack();
+                this.view.update();
                 break;
         }
     };
@@ -65,7 +69,7 @@ public class Yatzy {
     private ActionListener winScreenListener = event -> {
         switch (event.getActionCommand().toLowerCase()) {
             case "change":
-                this.view.pack();
+                this.view.update();
                 break;
         }
     };
@@ -88,7 +92,7 @@ public class Yatzy {
                 // TODO
                 break;
             case "change":
-                this.view.pack();
+                this.view.update();
                 break;
         }
     };
@@ -96,7 +100,6 @@ public class Yatzy {
     private YatzyWindow view;
     private ArrayList<YatzyPlayer> players;
     private YatzyPlayer currentPlayer;
-    private PlayerAction playerAction;
     private YatzyDiceCollection dice;
 
     /**
@@ -172,6 +175,18 @@ public class Yatzy {
     }
 
     /**
+     * Called when the user changes action mode
+     */
+    private void onModeChange() {
+        if (this.currentPlayer.hasAllRollsLeft()) {
+            // user hasn't rolled yet, don't do anything
+            return;
+        }
+
+        this.updateCombinationButtons();
+    }
+
+    /**
      * Called when a combinationButton has been clicked in the game view. Crosses or gives score
      * to the associated scoreboard field of the pick for the current player. Also updates the
      * game view, and starts a new turn.
@@ -180,22 +195,25 @@ public class Yatzy {
     private void onCombinationPick(CombinationButton pick) {
         DiceCombination combination = pick.getCombination();
         YatzyScoreBoard scoreBoard = this.currentPlayer.getScoreBoard();
-        ScoreBoardCell cell = scoreBoard.getCell(combination);
         PlayerPanel playerPanel = this.view.gameScreen.getPlayerPanels().get(this.currentPlayer);
+        PlayerAction action = this.view.gameScreen.getSelectedAction();
 
-        switch (this.playerAction) {
+        switch (action) {
             case CROSS:
-                cell.setCrossed(true);
+                scoreBoard.getCell(combination).setCrossed(true);
                 break;
             case SCORE:
                 int score = this.dice.getScore(combination);
-                cell.setValue(score);
+                scoreBoard.getCell(combination).setValue(score);
                 break;
         }
 
-        // update total and bonus
+        // update totals and bonus
         int bonus = scoreBoard.getBonus();
         playerPanel.getBonusTextField().setText(Integer.toString(bonus));
+
+        int upperTotal = scoreBoard.getUpperSection().getSum();
+        playerPanel.getUpperTotalTextField().setText(Integer.toString(upperTotal));
 
         int total = scoreBoard.getTotalScore();
         playerPanel.getTotalTextField().setText(Integer.toString(total));
@@ -231,44 +249,7 @@ public class Yatzy {
             this.view.gameScreen.getRollButton().setEnabled(false);
         }
 
-        HashMap<DiceCombination, CombinationButton> combinationButtons = this.view.gameScreen.getCombinationButtons();
-
-        // determines if player will cross a cell instead of scoring
-        boolean cross = true;
-
-        for (DiceCombination combination : combinationButtons.keySet()) {
-            YatzyScoreBoard scoreBoard = this.currentPlayer.getScoreBoard();
-            ScoreBoardCell cell = scoreBoard.getCell(combination);
-
-            // check if corresponding cell is filled or crossed
-            boolean matches = this.dice.match(combination);
-
-            // check if corresponding cell is filled or crossed
-            boolean alreadyFilled = !cell.isEmpty() || cell.isCrossed();
-
-            boolean valid = matches && ! alreadyFilled;
-
-            if (valid) {
-                cross = false;
-            }
-
-            // disable combinationButton if it doesn't match or is already filled
-            combinationButtons.get(combination).setEnabled(valid);
-        }
-
-        if (cross && !this.currentPlayer.hasRollsLeft()) {
-            // enable all non-filled combination buttons
-            for (DiceCombination combination : combinationButtons.keySet()) {
-                YatzyScoreBoard scoreBoard = this.currentPlayer.getScoreBoard();
-                ScoreBoardCell cell = scoreBoard.getCell(combination);
-
-                combinationButtons.get(combination).setEnabled(cell.isEmpty() && !cell.isCrossed());
-            }
-
-            this.playerAction = PlayerAction.CROSS;
-        } else {
-            this.playerAction = PlayerAction.SCORE;
-        }
+        this.updateCombinationButtons();
     }
 
     /**
@@ -299,7 +280,6 @@ public class Yatzy {
         // update views
         this.view.playerScreen.reset();
         this.view.setScreen(this.view.gameScreen);
-
         this.view.gameScreen.setPlayers(this.players);
 
         this.onNewTurn();
@@ -331,16 +311,7 @@ public class Yatzy {
         this.currentPlayer = this.players.get(newPlayerIndex);
         this.currentPlayer.resetRollsLeft();
 
-        // reset the view
-        this.view.gameScreen.getRollButton().setEnabled(true);
-
-        for (DiceButton diceButton : this.view.gameScreen.getDiceButtons()) {
-            diceButton.reset();
-        }
-
-        for (CombinationButton combinationButton : this.view.gameScreen.getCombinationButtons().values()) {
-            combinationButton.setEnabled(false);
-        }
+        this.resetGameView();
 
         // update current player
         HashMap<YatzyPlayer, PlayerPanel> playerPanels = this.view.gameScreen.getPlayerPanels();
@@ -350,6 +321,60 @@ public class Yatzy {
         }
 
         playerPanels.get(this.currentPlayer).setActive(true);
+    }
+
+    /**
+     * Resets the game view
+     */
+    private void resetGameView() {
+        this.view.gameScreen.getRollButton().setEnabled(true);
+        this.view.gameScreen.setSelectedAction(PlayerAction.SCORE);
+
+        for (DiceButton diceButton : this.view.gameScreen.getDiceButtons()) {
+            diceButton.reset();
+        }
+
+        for (CombinationButton combinationButton : this.view.gameScreen.getCombinationButtons().values()) {
+            combinationButton.setEnabled(false);
+        }
+    }
+
+    /**
+     * Updates the combination buttons according to the chosen action mode
+     */
+    private void updateCombinationButtons() {
+        if (this.currentPlayer.hasAllRollsLeft()) {
+            return;
+        }
+
+        YatzyScoreBoard scoreBoard = this.currentPlayer.getScoreBoard();
+        PlayerAction action = this.view.gameScreen.getSelectedAction();
+
+        HashMap<DiceCombination, CombinationButton> combinationButtons = this.view.gameScreen.getCombinationButtons();
+
+        for (DiceCombination combination : combinationButtons.keySet()) {
+            ScoreBoardCell cell = scoreBoard.getCell(combination);
+
+            // check if corresponding cell matches combination
+            boolean matches = this.dice.match(combination);
+
+            // check if corresponding cell is filled or crossed
+            boolean alreadyFilled = !cell.isEmpty() || cell.isCrossed();
+
+            // check if button should be on or off
+            boolean valid = false;
+
+            switch (action) {
+                case CROSS:
+                    valid = !alreadyFilled;
+                    break;
+                case SCORE:
+                    valid = matches && !alreadyFilled;
+                    break;
+            }
+
+            combinationButtons.get(combination).setEnabled(valid);
+        }
     }
 
     /**

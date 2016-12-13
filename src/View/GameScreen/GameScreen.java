@@ -11,6 +11,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.SoftBevelBorder;
 
+import Controller.PlayerAction;
 import Model.Dice.Dice;
 import Model.Dice.DiceCollection;
 import Model.Dice.DiceCombination;
@@ -23,11 +24,13 @@ import View.YatzyScreen;
  *     Roll:        When the roll button is pressed
  *     Dice:        When a dice button is pressed
  *     Combination: When a combination button is pressed
+ *     Mode:        When a player action mode has changed
  *     Change:      When the panel has changed
  * @author Isak
  */
 public class GameScreen extends YatzyScreen {
     private ArrayList<DiceButton> diceButtons;
+    private HashMap<PlayerAction, JRadioButton> playerActionRadioButtons;
     private HashMap<DiceCombination, CombinationButton> combinationButtons;
     private HashMap<YatzyPlayer, PlayerPanel> playerPanels;
     private JButton rollButton;
@@ -66,6 +69,33 @@ public class GameScreen extends YatzyScreen {
      */
     public ArrayList<DiceButton> getDiceButtons() {
         return this.diceButtons;
+    }
+
+    /**
+     * Gets the action associated with the selected radiobutton
+     * @return the associated action
+     */
+    public PlayerAction getSelectedAction() {
+        for (PlayerAction action : this.playerActionRadioButtons.keySet()) {
+            JRadioButton radioButton = this.playerActionRadioButtons.get(action);
+
+            if (radioButton.isSelected()) {
+                return action;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Sets what radiobutton associated with a specific action to be selected.
+     * @param action the associated action
+     */
+    public void setSelectedAction(PlayerAction action) {
+        for (PlayerAction playerAction : this.playerActionRadioButtons.keySet()) {
+            JRadioButton radioButton = this.playerActionRadioButtons.get(playerAction);
+            radioButton.setSelected(playerAction == action);
+        }
     }
 
     /**
@@ -119,12 +149,16 @@ public class GameScreen extends YatzyScreen {
             this.combinationButtons.put(combination, combinationButton);
 
             if (combination == DiceCombination.SIXES) {
-                // add bonus after sixes
+                // add bonus and upper total after sixes
                 JLabel bonusLabel = new JLabel("Bonus");
                 Dimension size = bonusLabel.getPreferredSize();
                 size.height = 25;
                 bonusLabel.setPreferredSize(size);
                 this.combinationPanel.add(bonusLabel);
+
+                JLabel upperTotalLabel = new JLabel("Total");
+                upperTotalLabel.setPreferredSize(size);
+                this.combinationPanel.add(upperTotalLabel);
             }
         }
 
@@ -159,6 +193,7 @@ public class GameScreen extends YatzyScreen {
     @Override
     protected void initDefaultGUI() {
         this.diceButtons = new ArrayList<DiceButton>();
+        this.playerActionRadioButtons = new HashMap<PlayerAction, JRadioButton>();
         this.combinationButtons = new HashMap<DiceCombination, CombinationButton>();
         this.playerPanels = new HashMap<YatzyPlayer, PlayerPanel>();
 
@@ -174,7 +209,7 @@ public class GameScreen extends YatzyScreen {
     }
 
     /**
-     * Creates the left panel of the view, containing the combinationButtons
+     * Creates the left panel of the view, containing the combinationButtons and player action modes
      * @return a new JPanel
      */
     private JPanel createCombinationPanel() {
@@ -188,6 +223,27 @@ public class GameScreen extends YatzyScreen {
         this.combinationPanel = new JPanel();
         this.combinationPanel.setLayout(new GridLayout(0, 1, 0, 2));
         combinationButtonPanel.add(this.combinationPanel);
+
+        JPanel actionPanelWrapper = new JPanel();
+        actionPanelWrapper.setLayout(new FlowLayout(FlowLayout.CENTER));
+        combinationPanelWrapper.add(actionPanelWrapper, BorderLayout.NORTH);
+
+        JPanel actionPanel = new JPanel();
+        actionPanel.setLayout(new GridLayout(0, 1, 0, 0));
+        actionPanelWrapper.add(actionPanel);
+
+        ButtonGroup group = new ButtonGroup();
+
+        for (PlayerAction action : PlayerAction.values()) {
+            JRadioButton radioButton = new JRadioButton(action.toString());
+            radioButton.setActionCommand("Mode");
+            radioButton.addActionListener(this::fireActionPerformed);
+            group.add(radioButton);
+            actionPanel.add(radioButton);
+            this.playerActionRadioButtons.put(action, radioButton);
+        }
+
+        this.playerActionRadioButtons.get(PlayerAction.SCORE).setSelected(true);
 
         return combinationPanelWrapper;
     }

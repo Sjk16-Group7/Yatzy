@@ -24,6 +24,7 @@ public class PlayerPanel extends JPanel {
     private YatzyPlayer player;
     private JLabel currentPlayerLabel;
     private JTextField bonusTextField;
+    private JTextField upperTotalTextField;
     private JTextField totalTextField;
     private HashMap<DiceCombination, JTextField> textFields = new HashMap<>();
 
@@ -60,6 +61,14 @@ public class PlayerPanel extends JPanel {
      */
     public JTextField getTotalTextField() {
         return this.totalTextField;
+    }
+
+    /**
+     * Gets the upper total textfield
+     * @return the upper total textfield
+     */
+    public JTextField getUpperTotalTextField() {
+        return this.upperTotalTextField;
     }
 
     /**
@@ -146,16 +155,24 @@ public class PlayerPanel extends JPanel {
             scorePanel.add(textField);
 
             if (combination == DiceCombination.SIXES) {
-                // add bonus after sixes
+                // add bonus and upper total after sixes
                 this.bonusTextField = ViewHelper.createCustomHeightTextField(25);
+                this.bonusTextField.setText("0");
                 this.bonusTextField.setHorizontalAlignment(JTextField.CENTER);
                 this.bonusTextField.setEditable(false);
                 scorePanel.add(this.bonusTextField);
+
+                this.upperTotalTextField = ViewHelper.createCustomHeightTextField(25);
+                this.upperTotalTextField.setText("0");
+                this.upperTotalTextField.setHorizontalAlignment(JTextField.CENTER);
+                this.upperTotalTextField.setEditable(false);
+                scorePanel.add(this.upperTotalTextField);
             }
         }
 
         // add total last
         this.totalTextField = ViewHelper.createCustomHeightTextField(25);
+        this.totalTextField.setText("0");
         this.totalTextField.setHorizontalAlignment(JTextField.CENTER);
         this.totalTextField.setEditable(false);
         scorePanel.add(this.totalTextField);

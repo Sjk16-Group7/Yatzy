@@ -24,7 +24,7 @@ import View.WinScreen.WinScreen;
  * @author Gustav
  */
 public class YatzyWindow extends JFrame {
-    private final static Image windowIcon = new ImageIcon(YatzyWindow.class.getResource("/Dice6active.png")).getImage();
+    private final static Image windowIcon = new ImageIcon(YatzyWindow.class.getResource("/Dice5active.png")).getImage();
 
     public final GameScreen gameScreen = new GameScreen();       // game board view
     public final PlayerScreen playerScreen = new PlayerScreen(); // player view
@@ -48,10 +48,17 @@ public class YatzyWindow extends JFrame {
      * @see          public instance variables
      */
     public void setScreen(YatzyScreen screen) {
+        this.setVisible(false);
         this.wrapper.removeAll();
         this.wrapper.add(screen, BorderLayout.CENTER);
-
         this.fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Change"));
+    }
+
+    /**
+     * Updates the view
+     */
+    public void update() {
+        this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -60,12 +67,12 @@ public class YatzyWindow extends JFrame {
      * Resets the GUI components of this window
      */
     public void reset() {
+        this.setVisible(false);
         this.gameScreen.reset();
         this.playerScreen.reset();
         this.winScreen.reset();
 
         this.wrapper.removeAll();
-        this.setVisible(false);
         this.listenerList = new EventListenerList();
 
         this.fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Change"));
