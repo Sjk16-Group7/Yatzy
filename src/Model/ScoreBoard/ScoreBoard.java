@@ -109,7 +109,7 @@ public class ScoreBoard {
         int sum = 0;
 
         for (int row = 0; row < this.rows; row++) {
-            for (int column = 0; column < this.columns; columns++) {
+            for (int column = 0; column < this.columns; column++) {
                 ScoreBoardCell cell = this.getCell(row, column);
                 sum += cell.getValue();
             }

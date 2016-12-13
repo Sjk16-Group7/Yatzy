@@ -29,6 +29,10 @@ public class ScoreBoardCell {
      * @return the value
      */
     public int getValue() {
+        if (this.value == null) {
+            return 0;
+        }
+
         return this.value;
     }
 

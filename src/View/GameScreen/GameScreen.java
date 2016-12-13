@@ -117,7 +117,23 @@ public class GameScreen extends YatzyScreen {
             combinationButton.addActionListener(this::fireActionPerformed);
             this.combinationPanel.add(combinationButton);
             this.combinationButtons.put(combination, combinationButton);
+
+            if (combination == DiceCombination.SIXES) {
+                // add bonus after sixes
+                JLabel bonusLabel = new JLabel("Bonus");
+                Dimension size = bonusLabel.getPreferredSize();
+                size.height = 25;
+                bonusLabel.setPreferredSize(size);
+                this.combinationPanel.add(bonusLabel);
+            }
         }
+
+        // add total last
+        JLabel totalLabel = new JLabel("Total");
+        Dimension size = totalLabel.getPreferredSize();
+        size.height = 25;
+        totalLabel.setPreferredSize(size);
+        this.combinationPanel.add(totalLabel);
 
         this.fireActionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Change"));
     }

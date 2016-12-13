@@ -23,4 +23,19 @@ public abstract class ViewHelper {
 
         return button;
     }
+
+    /**
+     * Creates a new JTextField with a custom height
+     * @param height the height
+     * @return a new JTextField
+     */
+    public static JTextField createCustomHeightTextField(int height) {
+        JTextField textField = new JTextField();
+
+        Dimension size = textField.getPreferredSize();
+        size.height = 25;
+        textField.setPreferredSize(size);
+
+        return textField;
+    }
 }
