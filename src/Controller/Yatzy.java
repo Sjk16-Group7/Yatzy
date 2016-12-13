@@ -179,7 +179,8 @@ public class Yatzy {
      */
     private void onCombinationPick(CombinationButton pick) {
         DiceCombination combination = pick.getCombination();
-        ScoreBoardCell cell = this.currentPlayer.getScoreBoard().getCell(combination);
+        YatzyScoreBoard scoreBoard = this.currentPlayer.getScoreBoard();
+        ScoreBoardCell cell = scoreBoard.getCell(combination);
         PlayerPanel playerPanel = this.view.gameScreen.getPlayerPanels().get(this.currentPlayer);
 
         switch (this.playerAction) {
@@ -191,6 +192,13 @@ public class Yatzy {
                 cell.setValue(score);
                 break;
         }
+
+        // update total and bonus
+        int bonus = scoreBoard.getBonus();
+        playerPanel.getBonusTextField().setText(Integer.toString(bonus));
+
+        int total = scoreBoard.getTotalScore();
+        playerPanel.getTotalTextField().setText(Integer.toString(total));
 
         // update display of player scoreboard
         playerPanel.update();

@@ -10,6 +10,7 @@ import Model.Dice.DiceCombination;
 import Model.Player.YatzyPlayer;
 import Model.ScoreBoard.ScoreBoardCell;
 import Model.ScoreBoard.YatzyScoreBoard;
+import View.ViewHelper;
 
 /**
  * PlayerPanel is an extension of JPanel, customized to have a YatzyPlayer associated with it.
@@ -22,6 +23,8 @@ public class PlayerPanel extends JPanel {
 
     private YatzyPlayer player;
     private JLabel currentPlayerLabel;
+    private JTextField bonusTextField;
+    private JTextField totalTextField;
     private HashMap<DiceCombination, JTextField> textFields = new HashMap<>();
 
     /**
@@ -41,6 +44,22 @@ public class PlayerPanel extends JPanel {
      */
     public YatzyPlayer getPlayer() {
         return this.player;
+    }
+
+    /**
+     * Gets the bonus textfield
+     * @return the bonus textfield
+     */
+    public JTextField getBonusTextField() {
+        return this.bonusTextField;
+    }
+
+    /**
+     * Gets the total textfield
+     * @return the total textfield
+     */
+    public JTextField getTotalTextField() {
+        return this.totalTextField;
     }
 
     /**
@@ -120,12 +139,26 @@ public class PlayerPanel extends JPanel {
         this.add(scorePanel, BorderLayout.CENTER);
 
         for (DiceCombination combination : DiceCombination.values()) {
-            JTextField textField = new JTextField();
+            JTextField textField = ViewHelper.createCustomHeightTextField(25);
             textField.setEditable(false);
             textField.setHorizontalAlignment(JTextField.CENTER);
             this.textFields.put(combination, textField);
             scorePanel.add(textField);
+
+            if (combination == DiceCombination.SIXES) {
+                // add bonus after sixes
+                this.bonusTextField = ViewHelper.createCustomHeightTextField(25);
+                this.bonusTextField.setHorizontalAlignment(JTextField.CENTER);
+                this.bonusTextField.setEditable(false);
+                scorePanel.add(this.bonusTextField);
+            }
         }
+
+        // add total last
+        this.totalTextField = ViewHelper.createCustomHeightTextField(25);
+        this.totalTextField.setHorizontalAlignment(JTextField.CENTER);
+        this.totalTextField.setEditable(false);
+        scorePanel.add(this.totalTextField);
 
         this.setActive(false);
     }
