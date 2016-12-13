@@ -34,10 +34,25 @@ public class ScoreBoard {
      * @return     a new ScoreBoard
      */
 	public static ScoreBoard fromRows(ScoreBoardCell[][] rows) {
-	    ScoreBoard scoreBoard = new ScoreBoard();
-        scoreBoard.board = rows;
+	    int rowCount = 0;
+	    int columnCount = 0;
 
-        // TODO doesn't clone the cells & doesn't set rows/columns
+        for (ScoreBoardCell[] row : rows) {
+            rowCount++;
+            columnCount = 0;
+
+            for (ScoreBoardCell cell : row) {
+                columnCount++;
+            }
+        }
+
+	    ScoreBoard scoreBoard = new ScoreBoard(rowCount, columnCount);
+
+        for (int row = 0; row < rowCount; row++) {
+            for (int column = 0; column < columnCount; column++) {
+                scoreBoard.board[row][column] = rows[row][column].clone();
+            }
+        }
 
 	    return scoreBoard;
     }
@@ -48,9 +63,25 @@ public class ScoreBoard {
      * @return        a new ScoreBoard
      */
 	public static ScoreBoard fromColumns(ScoreBoardCell[][] columns) {
-	    ScoreBoard scoreBoard = new ScoreBoard();
+        int rowCount = 0;
+        int columnCount = 0;
 
-	    // TODO doesn't work
+        for (ScoreBoardCell[] column : columns) {
+            columnCount++;
+            rowCount = 0;
+
+            for (ScoreBoardCell cell : column) {
+                rowCount++;
+            }
+        }
+
+        ScoreBoard scoreBoard = new ScoreBoard(rowCount, columnCount);
+
+        for (int row = 0; row < rowCount; row++) {
+            for (int column = 0; column < columnCount; column++) {
+                scoreBoard.board[row][column] = columns[column][row].clone();
+            }
+        }
 
         return scoreBoard;
     }

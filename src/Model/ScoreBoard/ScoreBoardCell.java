@@ -83,7 +83,7 @@ public class ScoreBoardCell {
      */
     @Override
     public String toString() {
-        return "ScoreBoardCell(value" + this.value + ", crossed:" + this.crossed + ")";
+        return "ScoreBoardCell(value:" + this.value + ", crossed:" + this.crossed + ")";
     }
 
     /**
