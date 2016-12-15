@@ -39,6 +39,6 @@ Bonus If the total of Upper scores is 63 or more, add a bonus of 50. Note that 6
 This project is currently not supporting Mobile Devices.
 
 - Desktop PCs
-  * Windows 
+ * Windows 
  * Linux 
  * Mac OS X
