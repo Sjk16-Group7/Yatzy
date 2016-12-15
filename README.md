@@ -2,13 +2,13 @@
 Yatzy is a java application based on the the famous dice game "Yahtzee".
 
 <p align="center">
-<img src="https://lh6.googleusercontent.com/vU9yoISwfTZPriyxgTRgPrPHp9kCPcroyFOeHjymUJGXO_LViGcgV-2dNgG3i17GPvUOQpwJr8XxSxI=w1920-h950" title="Player Dialog">
-<img src="https://lh6.googleusercontent.com/sJZP9IRdSpJ_N0YAzc6XinOBLkwrbknSWsFltnSmtY12Kcq1-5H-DWc8QkMReVznaGHZKiinQn7zgPQ=w1920-h901" title="Menu Bar Options">
+<img src="http://gdurl.com/8E2y" title="Player Dialog">
+<img src="http://gdurl.com/fKnw" title="Menu Bar Options">
 
-<img src="https://lh3.googleusercontent.com/EGvOLn_y2cPn2hfjACe_aNaiso8fOu-_gldiBmiim0NUeQIDnBkn_LCEAS94IV11laQvPwkQqA2pMx4=w1920-h950" title="Main Game on startup">
-<img src="https://lh3.googleusercontent.com/nNA048F0ltHWgeX7GgknIpvizaid3EO0rCZE8YjKuclX6hMm5FquWvJnQigrrundRiuepAtMWL-yAnQ=w1920-h950" title="Main Game on Roll">
-<img src="https://lh5.googleusercontent.com/DV60xpZ1ld_Plaj4T8PeZNCgcY1HbMKmsQhZBgpR8YDWoj7EJrz-cjh9v3m9-WPUAxCKA6eCeuVOZK4=w1920-h950" title="Main Game selected dice">
-<img src="https://lh5.googleusercontent.com/cmk_xltGx9QAfIH2Nyykh6Iz1cmL8GVwDomFBc64j5BESk9GbRI-fCS72Iu91wIomGje_ei3rinkOlE=w1920-h950" title="Main Game in progress">
+<img src="http://gdurl.com/N7IX" title="Main Game on startup">
+<img src="http://gdurl.com/lbY4" title="Main Game on Roll">
+<img src="http://gdurl.com/5rac" title="Main Game selected dice">
+<img src="http://gdurl.com/jgzg" title="Main Game in progress">
 </p>
 
 ## Rules & Gameplay <a href="http://www.yahtzee.org.uk/rules.html" target="_blank">{*see source*}</a>
