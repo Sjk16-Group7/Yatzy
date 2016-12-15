@@ -1,7 +1,7 @@
 # Yatzy
 Yatzy is a java application based on the the famous dice game "Yahtzee".
 
-## Rules & Gameplay [{*see source*}](http://www.yahtzee.org.uk/rules.html "http://www.yahtzee.org.uk/rules.html")
+## Rules & Gameplay <a href="http://www.yahtzee.org.uk/rules.html" target="_blank">{*see source*}</a>
 - **Object of the game:**<br/>
 The object of Yahtzee is to obtain the highest score from throwing **5** dice.
 The game consists of **13** rounds. In each round, you roll the dice and then score the roll in one of **13** categories. 
