@@ -1,6 +1,16 @@
 # Yatzy
 Yatzy is a java application based on the the famous dice game "Yahtzee".
 
+<p align="center">
+<img src="https://lh6.googleusercontent.com/vU9yoISwfTZPriyxgTRgPrPHp9kCPcroyFOeHjymUJGXO_LViGcgV-2dNgG3i17GPvUOQpwJr8XxSxI=w1920-h950" title="Player Dialog">
+<img src="https://lh6.googleusercontent.com/sJZP9IRdSpJ_N0YAzc6XinOBLkwrbknSWsFltnSmtY12Kcq1-5H-DWc8QkMReVznaGHZKiinQn7zgPQ=w1920-h901" title="Menu Bar Options">
+
+<img src="https://lh3.googleusercontent.com/EGvOLn_y2cPn2hfjACe_aNaiso8fOu-_gldiBmiim0NUeQIDnBkn_LCEAS94IV11laQvPwkQqA2pMx4=w1920-h950" title="Main Game on startup">
+<img src="https://lh3.googleusercontent.com/nNA048F0ltHWgeX7GgknIpvizaid3EO0rCZE8YjKuclX6hMm5FquWvJnQigrrundRiuepAtMWL-yAnQ=w1920-h950" title="Main Game on Roll">
+<img src="https://lh5.googleusercontent.com/DV60xpZ1ld_Plaj4T8PeZNCgcY1HbMKmsQhZBgpR8YDWoj7EJrz-cjh9v3m9-WPUAxCKA6eCeuVOZK4=w1920-h950" title="Main Game selected dice">
+<img src="https://lh5.googleusercontent.com/cmk_xltGx9QAfIH2Nyykh6Iz1cmL8GVwDomFBc64j5BESk9GbRI-fCS72Iu91wIomGje_ei3rinkOlE=w1920-h950" title="Main Game in progress">
+</p>
+
 ## Rules & Gameplay <a href="http://www.yahtzee.org.uk/rules.html" target="_blank">{*see source*}</a>
 - **Object of the game:**<br/>
 The object of Yahtzee is to obtain the highest score from throwing **5** dice.
@@ -31,10 +41,10 @@ In the lower scores, you score either a set amount, or zero if you don't satisfy
  * **3 and 4 of a kind:**<br/> For **3** of a kind you must have at least **3** of the same die faces. You score the total of all the dice. For **4** of a kind you would need **4** die faces the same.<br/>
  * **Small and Large Straight:**<br/> 
 A Straight is a sequence of consecutive die faces, where a small straight is **4** consecutive faces, and a large straight **5** consecutive faces.
-Small straights score **30** and a large **40** points.<br/>
+Small straights score **15** and a large **20** points.<br/>
 So if you rolled:
 **2, 3, 2, 5, 4**
-you could score **30** in small straight or **0** in large straight.<br/>
+you could score **15** in small straight or **0** in large straight.<br/>
  * **Full House:**<br/> 
 A Full House is where you have **3** of a kind and **2** of a kind. Full houses score **25** points.
 i.e.:
@@ -50,7 +60,7 @@ You can score any roll in any category at any time, even if the resulting score 
 can take **2, 3, 3, 4, 6** in the **5**'s category. It will place a **cross** at the chosen category meaning that the score of that is **0** (**null**). This could be used near the end of a game to lose a poor roll against a difficult-to-get category that you've failed to fill (eg, long straight or yahtzee).
 
 ## Supported Platforms
-This project is currently not supporting Mobile Devices.
+This project is currently not supporting Mobile Devices. **Requires Java to run!**
 
 - Desktop PCs
  * Windows 
