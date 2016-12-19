@@ -1,0 +1,10 @@
+Controller
+Model.Dice
+Model.Player
+Model.ScoreBoard
+View
+View.AboutDialog
+View.GameScreen
+View.PlayerScreen
+View.RulesDialog
+View.WinScreen

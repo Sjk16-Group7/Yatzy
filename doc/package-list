@@ -1,8 +1,0 @@
-Controller
-Model.Dice
-Model.Player
-Model.ScoreBoard
-View
-View.GameScreen
-View.PlayerScreen
-View.WinScreen
