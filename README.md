@@ -1,5 +1,7 @@
 # Yatzy
-Yatzy is a java application based on the the famous dice game "Yahtzee".
+Yatzy is a java application based on the the famous dice game "Yahtzee". Uses Swing as a GUI (Graphical User Interface). Currently supports up to (8) players.
+
+**Preview:**
 
 <p align="center">
 <img src="http://gdurl.com/8E2y" title="Player Dialog">
@@ -60,7 +62,7 @@ You can score any roll in any category at any time, even if the resulting score 
 can take **2, 3, 3, 4, 6** in the **5**'s category. It will place a **cross** at the chosen category meaning that the score of that is **0** (**null**). This could be used near the end of a game to lose a poor roll against a difficult-to-get category that you've failed to fill (eg, long straight or yahtzee).
 
 ## Supported Platforms
-This project is currently not supporting Mobile Devices. **Requires Java to run!**
+This project does currently not support Mobile Devices. **Requires Java to run!**
 
 - Desktop PCs
  * Windows 
