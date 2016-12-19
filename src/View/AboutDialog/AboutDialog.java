@@ -12,7 +12,13 @@ import javax.swing.border.TitledBorder;
  */
 public class AboutDialog extends JDialog {
     private static final String aboutText = "<html>Version 1.0.0<br>Licensed under MIT</html>";
-    private static final String authorsText = "<html>© 2016<br>Isak Wertwein<br>Gustav Malm<br>Marianna Khachadourian</html>";
+    private static final String authorsText = "<html>© 2016<br>" +
+                                                  "Isak Wertwein<br>" +
+                                                  "Gustav Malm<br>" +
+                                                  "Marianna Khachadourian<br>" +
+                                                  "Tanima Chowdhury<br>" +
+                                                  "Vera Goldman<br>" +
+                                              "</html>";
 
     public AboutDialog(JFrame owner) {
         super(owner, "About", true);
