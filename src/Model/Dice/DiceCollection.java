@@ -16,30 +16,43 @@ public class DiceCollection extends ArrayList<Dice> {
 
     /**
      * Class constructor, specifying number of Dice to create and add on creation.
-     * @param diceCount
+     * @param diceCount the initial number of Dice
      */
     public DiceCollection(int diceCount) {
-        this.add(diceCount);
+        this.addAmount(diceCount);
     }
 
     /**
      * Adds a specific amount of custom-sided Dice
-     * @param count         amount of Dice to add
+     * @param amount       amount of Dice to add
      * @param diceMaxValue amount of sides of each Dice
      */
-    public void add(int count, int diceMaxValue) {
-        for (int i = 0; i < count; i++) {
+    public void addValue(int amount, int diceMaxValue) {
+        for (int i = 0; i < amount; i++) {
             this.add(new Dice(diceMaxValue));
         }
     }
 
     /**
      * Adds a specific amount of standard Dice
-     * @param count amount of Dice to add
+     * @param amount amount of Dice to add
      */
-    public void add(int count) {
-        for (int i = 0; i < count; i++) {
+    public void addAmount(int amount) {
+        for (int i = 0; i < amount; i++) {
             this.add(Dice.standard());
+        }
+    }
+
+    /**
+     * Removes a single dice with a specific value
+     * @param value the value to look for
+     */
+    public void removeValue(int value) {
+        for (Dice dice : this) {
+            if (dice.getValue() == value) {
+                this.remove(dice);
+                return;
+            }
         }
     }
 
@@ -51,6 +64,36 @@ public class DiceCollection extends ArrayList<Dice> {
     public boolean has(int value) {
         for (Dice dice : this) {
             if (dice.getValue() == value) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks whether this contains dice with specific values
+     * @param values values to look for
+     * @return boolean indicating whether this contains dice with specific values
+     */
+    public boolean hasAll(int[] values) {
+        for (int value : values) {
+            if (!this.has(value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks whether this contains dice with any specified values
+     * @param values values to look for
+     * @return boolean indicating whether this contains dice with any specified values
+     */
+    public boolean hasAny(int[] values) {
+        for (int value : values) {
+            if (this.has(value)) {
                 return true;
             }
         }
@@ -141,11 +184,17 @@ public class DiceCollection extends ArrayList<Dice> {
     }
 
     /**
-     * Gets an identical new Object of the type class as this
+     * Gets an identical new Object of the type class as this. All elements are also cloned.
      * @return a new instance identical to this
      */
     @Override
     public DiceCollection clone() {
-        return (DiceCollection) super.clone();
+        DiceCollection collection = new DiceCollection();
+
+        for (Dice dice : this) {
+            collection.add(dice.clone());
+        }
+
+        return collection;
     }
 }

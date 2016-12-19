@@ -99,13 +99,13 @@ public class YatzyWindow extends JFrame {
         exitMenuItem.addActionListener(this::fireActionPerformed);
         fileMenu.add(exitMenuItem);
 
-        JMenuItem rulesMenuItem = new JMenuItem("Rules");
-        rulesMenuItem.setActionCommand("About");
+        JMenuItem rulesMenuItem = new JMenuItem("Rules...");
+        rulesMenuItem.setActionCommand("Help");
         rulesMenuItem.addActionListener(this::fireActionPerformed);
         helpMenu.add(rulesMenuItem);
 
-        JMenuItem helpMenuItem = new JMenuItem("About");
-        helpMenuItem.setActionCommand("Help");
+        JMenuItem helpMenuItem = new JMenuItem("About...");
+        helpMenuItem.setActionCommand("About");
         helpMenuItem.addActionListener(this::fireActionPerformed);
         helpMenu.add(helpMenuItem);
 

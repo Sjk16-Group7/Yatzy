@@ -37,6 +37,7 @@ public class PlayerPanel extends JPanel {
 
         this.player = player;
         this.initAppearance();
+        this.update();
     }
 
     /**
@@ -45,30 +46,6 @@ public class PlayerPanel extends JPanel {
      */
     public YatzyPlayer getPlayer() {
         return this.player;
-    }
-
-    /**
-     * Gets the bonus textfield
-     * @return the bonus textfield
-     */
-    public JTextField getBonusTextField() {
-        return this.bonusTextField;
-    }
-
-    /**
-     * Gets the total textfield
-     * @return the total textfield
-     */
-    public JTextField getTotalTextField() {
-        return this.totalTextField;
-    }
-
-    /**
-     * Gets the upper total textfield
-     * @return the upper total textfield
-     */
-    public JTextField getUpperTotalTextField() {
-        return this.upperTotalTextField;
     }
 
     /**
@@ -90,6 +67,16 @@ public class PlayerPanel extends JPanel {
                 textField.setText(Integer.toString(cell.getValue()));
             }
         }
+
+        // update totals and bonus
+        int bonus = scoreBoard.getBonus();
+        this.bonusTextField.setText(Integer.toString(bonus));
+
+        int upperTotal = scoreBoard.getUpperSection().getSum();
+        this.upperTotalTextField.setText(Integer.toString(upperTotal));
+
+        int total = scoreBoard.getTotalScore();
+        this.totalTextField.setText(Integer.toString(total));
     }
 
     /**

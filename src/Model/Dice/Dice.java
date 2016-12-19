@@ -46,9 +46,12 @@ public class Dice {
 	/**
 	 * Sets the value of the current up-facing side of this Dice
 	 * @param value the new value of the up-facing side
+	 * @return this dice instance
 	 */
-	public void setValue(int value) {
+	public Dice setValue(int value) {
 	    this.value = value;
+
+	    return this;
     }
 
 	/**
