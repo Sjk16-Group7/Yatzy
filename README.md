@@ -7,8 +7,6 @@ Yatzy is a java application based on the the famous dice game "Yahtzee". Uses Sw
 <img src="http://gdurl.com/8E2y" title="Player Dialog">
 <img src="http://gdurl.com/fKnw" title="Menu Bar Options">
 
-<img src="http://gdurl.com/N7IX" title="Main Game on startup">
-<img src="http://gdurl.com/lbY4" title="Main Game on Roll">
 <img src="http://gdurl.com/5rac" title="Main Game selected dice">
 <img src="http://gdurl.com/jgzg" title="Main Game in progress">
 </p>
